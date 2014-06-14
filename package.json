@@ -1,0 +1,9 @@
+{
+  "name": "Licensing-for-opencart-store",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-include-bootstrap": "^0.1.1",
+    "grunt-contrib-less": "^0.11.2"
+  }
+}

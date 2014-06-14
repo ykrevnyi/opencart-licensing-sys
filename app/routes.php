@@ -11,6 +11,9 @@
 |
 */
 
+
+Route::resource('modules', '\License\Controllers\ModulesController');
+
 Route::get('/', function()
 {
 	return View::make('hello');

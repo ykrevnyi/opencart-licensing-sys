@@ -1,5 +1,7 @@
 <?php
 
+use License\Repositories\KeyRepository;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -16,5 +18,15 @@ Route::resource('modules', '\License\Controllers\ModulesController');
 
 Route::get('/', function()
 {
-	return View::make('hello');
+	$keyRepository = new KeyRepository;
+
+	// if ($keyRepository->find('DEMO')) {
+	// 	return 'hey!';
+	// } else {
+	// 	return false;
+	// }
+	
+	var_dump($keyRepository->find('DEMO'));
+
+	echo count($keyRepository->find('DEMO'));
 });

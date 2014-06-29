@@ -2,197 +2,49 @@
 
 
 use License\Repositories\KeyRepository;
+use License\Services\KeyAuthGenerator;
+use License\Exceptions\KeyExiststException;
+use License\Exceptions\KeyShouldHaveTimeException;
 
 
 class KeyAuth 
 {
-	
-	/**
-	 * Number of characters in each chunk.
-	 * This is the core part of the key
-	 * @var integer
-	 */
-	public $key_chunk = 4;
 
-	
-	/**
-	 * Number of chunks in each key.
-	 * This add a new section with the chunk length to the key.
-	 * @var integer
-	 */
-	public $key_part = 5;
+	private $generator;
 
-	
-	/**
-	 * This is placed at the beginning of each key if set.
-	 * This would be a constant in each key generated.
-	 * @var string
-	 */
-	public $key_pre = "";
+	public $is_trial = FALSE;
 
-	
-	/**
-	 * This is placed at the end of each key if set.
-	 * This would be a constant in each key generated.
-	 * @var string
-	 */
-	public $key_post = "";
-	
-	
-	/**
-	 * If set to TRUE, the key will be split at each key part by the key divider.
-	 * @var boolean
-	 */
-	public $key_split = TRUE;
-
-	
-	/**
-	 * The key divider, this is placed between each key part if key_split is TRUE.
-	 * @var string
-	 */
-	public $key_div = "-";
-
-	
-	/**
-	 * If set, the key will be stored along with this string, when authenticating,
-	 * the user would need to supply a valid key and it matching key string. If
-	 * set the key will be stored in the database even if key_store is FALSE.
-	 * Requires key_unique to be set TRUE.
-	 * @var string
-	 */
-	public $key_match = "";
-
-	
-	/**
-	 * If TRUE, the key will be stored in the database even if there is no key_match set.
-	 * Requires key_unique to be set TRUE
-	 * @var boolean
-	 */
-	public $key_store = FALSE;
-
-	
-	/**
-	 * How long the key is valid for in seconds, if 0, key never expires.
-	 * @var integer
-	 */
+	public $key = "";
+	public $domain = "";
 	public $key_time = 0;
-	
-	
-	/**
-	 * A widely used variable, sets a key for use in the class.
-	 * @var string
-	 */
-	public $key_temp = "";
-	
-	
-	/**
-	 * If set TRUE, they class will check if a key of the same value exists in the database.
-	 * If a key does exist, they generation class will try and create another key.
-	 * @var boolean
-	 */
-	public $key_unique = FALSE;
-
-
-	/**
-	 * Validate by module code
-	 *
-	 * @var string
-	 */
+	public $expired_at = 0;
 	public $module_code = "";
+	public $transaction_id = 'NULL';
 
-
-	/**
-	 * Define of we want to generate `DEMO` key instead of real one
-	 *
-	 * @return bool
-	 */
-	public $need_demo_key = FALSE;
-
-
-	/**
-	 * Store transaction id
-	 *
-	 * @return number
-	 */
-	public $transaction_id = NULL;
-
-	
-	/**
-	 * The low end of the random number ASCII range.
-	 * @var integer
-	 */
-	private $num_range_low = 48;
-
-	
-	/**
-	 * The high end of the random number ASCII range.
-	 * @var integer
-	 */
-	private $num_range_high = 57;
-
-	
-	/**
-	 * The low end of the random letter ASCII range.
-	 * @var integer
-	 */
-	private $chr_range_low = 65;
-
-	
-	/**
-	 * The high end of the random letter ASCII range.
-	 * @var integer
-	 */
-	private $chr_range_high = 90;
 
 
 	function __construct() {
+		$this->generator = new KeyAuthGenerator;
 		$this->keyRepository = new KeyRepository;
 	}
 
 
 	/**
-	 * Clean a user supplied string
-	 * @param string|integer Input to be cleaned
-	 * @return string|integer Input cleaned
+	 * Create and store new key
+	 *
+	 * @return void
 	 */
-	private function clean($value)
+	public function make()
 	{
-		// Clean the input of SQL Injection
-		if (get_magic_quotes_gpc())
+		if ($this->exists())
 		{
-			// Remove the slashes that magic_quotes added
-			$value = stripslashes($value);
-		}
-		
-		if (!is_numeric($value))
-		{
-			// Escape and ' or " to remove SQL Injections
-			$value = mysql_real_escape_string($value);
+			throw new KeyExiststException("Key already exists", 0, NULL, array(
+				'module_code' => $this->module_code,
+				'domain' => $this->domain
+			));
 		}
 
-		return $value;
-	}
-
-
-	/**
-	 * Check if a key of the same name exist in the database
-	 * @return boolean True if key is unique
-	 */
-	private function check()
-	{
-		$key = $this->keyRepository->find($this->key_temp);
-
-		// If we get exactly one row returned
-		if(count($key))
-		{
-			// Key is not unique
-			return FALSE;
-		}
-		else
-		{
-			// Got 0 rows back, key is unique
-			return TRUE;
-		}
+		return $this->createKey();
 	}
 
 
@@ -204,22 +56,15 @@ class KeyAuth
 	 *
 	 * @return bool
 	 */
-	public function key_to_module_exists()
+	private function exists()
 	{
 		$key = $this->keyRepository->findByModule(
 			$this->module_code, 
-			$this->key_match
+			$this->domain
 		);
 		
 		// If we got a row back, there is a key that matched in the database
-		if(count($key))
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
+		return $key ? true : false;
 	}
 
 
@@ -227,43 +72,43 @@ class KeyAuth
 	 * Stores the key in the database
 	 * @return null
 	 */
-	private function store_key()
+	private function createKey()
 	{
-		// If key_time = 0, dont store a timestamp, if it != 0, store a
-		// Timestamp with key_time added.
-		$time = 0;
-
-		if ($this->key_time != 0) {
-			$time = time() + $this->key_time;
-		}
-
-		// Set testing key
-		if ( ! $this->key_temp)
+		if ( ! $this->key_time)
 		{
-			$this->key_temp  = "TEST";
+			throw new KeyShouldHaveTimeException("Key should have time");
 		}
+
+		$this->expired_at = time() + $this->key_time;
 		
+		// Generate key
+		$this->key = $this->generator->make($this->is_trial);
+
 		// Insert the key into the databse
-		$new_key = $this->keyRepository->store(
-			$this->key_temp,
-			$this->key_match,
-			$time,
-			true,
-			$this->module_code,
-			$this->transaction_id
-		);
+		$key = $this->keyRepository->store($this->composeKeyParams());
 		
 		// Check if the query was successful
-		if ($new_key)
-		{
-			// Return true if the update was successful
-			return TRUE;
-		}
-		else
-		{
-			// Return a notice if the update failed
-			throw new Exception("Error while storing key");
-		}
+		// Return true if the update was successful
+		return $key ? true : false;
+	}
+
+
+	/**
+	 * Composer all needle key params into one fillable array
+	 *
+	 * @return mixed
+	 */
+	private function composeKeyParams()
+	{
+		return array(
+			'domain' 		=> $this->domain,
+			'key' 			=> $this->key,
+			'module_code' 	=> $this->module_code,
+			'module_type' 	=> 2,
+			'transation_id' => $this->transaction_id,
+			'active' 		=> true,
+			'expired_at' 	=> date('Y-m-d G:i:s', $this->expired_at)
+		);
 	}
 
 
@@ -274,8 +119,8 @@ class KeyAuth
 	public function key_info()
 	{
 		$key = $this->keyRepository->getByDomain(
-			$this->key_temp,
-			$this->key_match
+			$this->key,
+			$this->domain
 		);
 		
 		// Make sure we get one row
@@ -299,7 +144,7 @@ class KeyAuth
 	public function deactivate()
 	{
 		// Check if the query was successful
-		if($this->keyRepository->deActivate($this->key_temp))
+		if($this->keyRepository->deActivate($this->key))
 		{
 			// Return true if the update was successful
 			return TRUE;
@@ -319,8 +164,8 @@ class KeyAuth
 	public function auth()
 	{
 		$key = $this->keyRepository->validate(
-			$this->key_temp,
-			$this->key_match,
+			$this->key,
+			$this->domain,
 			$this->module_code
 		);
 		
@@ -353,94 +198,6 @@ class KeyAuth
 
 
 	/**
-	 * Generate the key, checking for unique
-	 * @return string The generated key
-	 */
-	public function generate_key()
-	{
-		if ($this->need_demo_key == TRUE)
-		{
-			$this->key_temp = "DEMO";
-			$this->store_key();
-
-			return $this->key_temp;
-		}
-
-		// Hush PHP be settings varables
-		$key = "";
-		
-		// Loop through each key part
-		for($i = 0; $i != $this->key_part; $i++)
-		{
-			// Add random character to current part
-			for($x = 0; $x != $this->key_chunk; $x++)
-			{
-				// Generate a random character or number and append it to the string
-				$key .= (
-						// Generate a random bit switch, 1=number, 0=letter
-						mt_rand()&1==1 ?
-							// Generate a random number
-							chr(mt_rand($this->num_range_low,$this->num_range_high))
-							:
-							// Genreate a radnom letter
-							chr(mt_rand($this->chr_range_low,$this->chr_range_high))
-						);
-			}
-			
-			// If key_split is true, add the key_div, else, add nothing
-			$key .= $this->key_split ? $this->key_div : "";	
-		}
-		
-		// Trim any extra dividers
-		$this->key_temp = trim($this->key_pre . $this->key_div . $key . $this->key_post, $this->key_div);
-		
-		// Check if key_unique is set
-		if( ! $this->key_unique)
-		{
-			// It was not, so just send back this key
-			return $this->key_temp;
-		}
-
-		// Key_uniqe = TRUE so we need to check the key and store it
-		else
-		{
-			// Check the database for a key like this one
-			if($this->check())
-			{
-				// The key was not in the database, so we have a unique key, now we check
-				// If we are going to store it in the database
-				// Check if we have a match string set
-				if($this->key_match !== "")
-				{
-					// We do have a match string set, so store it in the database
-					// Store the key
-					$this->store_key();
-				}
-
-				// Are we set to store without match string
-				if($this->key_store === TRUE && $this->key_match === "")
-				{
-					// We have key_store set to TRUE and no match string, so we store it in the database
-					// Store the key
-					$this->store_key();
-				}
-				
-				// No key found, send this one
-				return $this->key_temp;
-			}
-			
-			// There WAS a key found!!! (should very rarely happen)
-			else
-			{	
-				// Key was found in db, lets try to get a new one
-				// Call this class and start all over trying for a new UNIQUE key
-				$this->generate_key();
-			}
-		}
-	}
-
-
-	/**
 	 * return a key check in json format
 	 * @return json Array of data about the string
 	 **/
@@ -448,7 +205,7 @@ class KeyAuth
 	{
 		
 		// Check if the key is valid
-		$valid = $this->auth($this->key_temp);
+		$valid = $this->auth($this->key);
 		
 		// If it is, build a json array
 		if($valid)
@@ -485,7 +242,7 @@ class KeyAuth
 		else
 		{
 			// Send back false
-			$json['valid']  = false;
+			$json['valid'] = false;
 		}
 		
 		// Send the json string

@@ -15,11 +15,11 @@ class CreateKeysTable extends Migration {
 		Schema::create('keys', function($table) {
 			$table->increments('id');
 
-			$table->string('key', 255)->unique();
+			$table->string('key', 255)->unique()->nullable();
 			$table->text('domain');
 			$table->string('module_code', 255);
 			$table->integer('module_type')->unsigned();
-			$table->integer('transaction_id')->unsigned();
+			$table->integer('transaction_id')->unsigned()->nullable();
 
 			$table->tinyInteger('active');
 

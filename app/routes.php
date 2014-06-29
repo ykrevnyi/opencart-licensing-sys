@@ -26,7 +26,7 @@ Route::get('/', function()
 	// 	return false;
 	// }
 	
-	var_dump($keyRepository->find('DEMO'));
+	// print_r($keyRepository->index()->toArray());
 
-	echo count($keyRepository->find('DEMO'));
+	
 });

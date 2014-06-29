@@ -81,4 +81,17 @@ class KeyRepository
 	}
 
 
+	/**
+	 * Stores a newly create key in the database
+	 *
+	 * @return void
+	 */
+	public function store($keyProperties)
+	{
+		$key = Key::create($keyProperties);
+
+		return $key;
+	}
+
+
 }

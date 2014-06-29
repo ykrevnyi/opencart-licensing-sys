@@ -10,7 +10,7 @@ $keyauth = new Keyauth;
 // Check if key for that domain + menu code, already exists
 $keyauth->key_match = $_POST['domain'];
 $keyauth->module_code = $_POST['module_code'];
-$key_exists = $keyauth->key_to_module_exists();
+$key_exists = $keyauth->key_to_module_exists();!
 
 
 // If there are no keys-to-domain-module we will generate one

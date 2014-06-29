@@ -15,7 +15,7 @@ class ModuleRepository
 	 */
 	public function all()
 	{
-		$domain = 'test';
+		$domain = 'demo.domain';
 
 		// Here we are going to get module active keys
 		$module_keys = "
@@ -40,6 +40,19 @@ class ModuleRepository
 
 
 	/**
+	 * Find module by its code
+	 *
+	 * @return void
+	 */
+	public function find($module_code)
+	{
+		$module = Module::whereCode($module_code)->first();
+
+		return $module;
+	}
+
+
+	/**
 	 * Format modules list array
 	 *
 	 * @return mixed
@@ -50,22 +63,28 @@ class ModuleRepository
 
 		foreach ($modules as $module)
 		{
+			$days_left = NULL;
+	        $expired_at = NULL;
+
+			// If there is some module with key it will
+			// have an key_expired_at field
 			if ($module->key_expired_at)
 		    {
+		    	$key_expired_at = strtotime($module->key_expired_at);
+
 		        // Get normal dates
 		        $today = time();
-		        $seconds_left = $module->key_expired_at - $today;
+		        $seconds_left = $key_expired_at - $today;
 		        
-		        // Module will be expired in N days
-		        $days_left = floor($seconds_left / 3600 / 24);
-
-		        // Module will be expired in 01/06/2014
-		        $expired_at = gmdate("d-m-Y", $module->key_expired_at);
-		    }
-		    else
-		    {
-		        $days_left = NULL;
-		        $expired_at = NULL;
+		        // Check if we have some `use` time
+		        if ($seconds_left > 0)
+		        {
+			        // Module will be expired in N days
+		        	$days_left = floor($seconds_left / 3600 / 24);
+		        	
+		        	// Module will be expired in 01/06/2014
+		        	$expired_at = gmdate("d-m-Y", $key_expired_at);
+		        }
 		    }
 
 		    $result['apps'][] = array(
@@ -81,6 +100,19 @@ class ModuleRepository
 		}
 
 		return $result;
+	}
+
+
+	/**
+	 * Get module .zip file location
+	 *
+	 * @return void
+	 */
+	public function getModuleLocation($module_code)
+	{
+		$module_code = htmlspecialchars($module_code);
+
+		return $_SERVER["DOCUMENT_ROOT"] . "/public/modules/" . $module_code . ".zip";
 	}
 
 

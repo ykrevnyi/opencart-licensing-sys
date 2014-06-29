@@ -3,6 +3,7 @@
 
 use License\Models\Module;
 use License\Repositories\ModuleRepository;
+use Input;
 
 
 class ModulesController extends \BaseController {
@@ -24,8 +25,9 @@ class ModulesController extends \BaseController {
 	public function index()
 	{
 		$modules = $this->repo->all();
-		$callback = \Input::get('callback', '[<b>YOU SHOULD SPECIFY CALLBACK]</b>');
+		$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
 
+		// print_r($modules); die();
 		return $callback . '(' . json_encode($modules) . ')';
 	}
 
@@ -37,7 +39,37 @@ class ModulesController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		$keyauth = new \License\Services\KeyAuth;
+
+		// Parse user needle data
+		$domain = Input::get('domain', 'test.test');
+		$module_code = Input::get('module_code', 'menu');
+
+		// Create key
+		$keyauth->domain = $domain;
+		$keyauth->module_code = $module_code;
+		// $keyauth->is_trial = true;
+		$keyauth->key_time = 60*60*24*7;
+		
+		if ($keyauth->make())
+		{
+			echo "key has been created successfully!";
+		}
+		else
+		{
+			echo "we got some errors while saving key! :(";
+		}
+
+		return '<br>end of function';
+		// // Get module file location
+		// $module_location = $this->repo->getModuleLocation($module_code);
+
+		// if (file_exists($module_location)) {
+		//     return $this->triggerDownload($module_location, $module_code);
+		// } else {
+		//     return 'Module not found';
+		// }
+		
 	}
 
 
@@ -58,9 +90,9 @@ class ModulesController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($module_code)
 	{
-		//
+		return $this->repo->find($module_code);
 	}
 
 
@@ -97,6 +129,25 @@ class ModulesController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+
+	/**
+	 * Send headers to start file download
+	 *
+	 * @return Response
+	 */
+	public function triggerDownload($module_location, $module_code)
+	{
+		header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
+	    header("Cache-Control: public"); // needed for i.e.
+	    header("Content-Type: application/zip");
+	    header("Content-Transfer-Encoding: Binary");
+	    header("Content-Length:".filesize($module_location));
+	    header("Content-Disposition: attachment; filename=" . $module_code . '.zip');
+	    readfile($module_location);
+
+	    die();
 	}
 
 

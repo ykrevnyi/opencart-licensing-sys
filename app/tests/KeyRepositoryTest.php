@@ -1,6 +1,6 @@
 <?php
 
-class ExampleTest extends TestCase {
+class KeyRepositoryTest extends TestCase {
 
 
 	/**
@@ -10,10 +10,10 @@ class ExampleTest extends TestCase {
 	 */
 	public function testFindKey()
 	{
-		// $repo = new KeyRepository();
-		// $key = $repo->find('DEMO');
+		$repo = new \License\Repositories\KeyRepository();
+		$key = $repo->find('DEMO');
 
-		// assertEquals($key->id, actual, 'message', delta, maxDepth, canonicalize, ignoreCase);
+		print_r($key);
 	}
 
 

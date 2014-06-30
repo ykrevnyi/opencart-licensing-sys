@@ -14,6 +14,7 @@ use License\Repositories\KeyRepository;
 */
 
 
+Route::get('modules/get', '\License\Controllers\ModulesController@get');
 Route::resource('modules', '\License\Controllers\ModulesController');
 
 Route::get('/', function()

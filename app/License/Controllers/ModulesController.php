@@ -33,6 +33,38 @@ class ModulesController extends \BaseController {
 
 
 	/**
+	 * Simply return module .zip archive
+	 * and try to create demo key
+	 *
+	 * At that point we will not return any errors to the customer.
+	 * All we want to do is - give away a module files. This is our goal.
+	 *
+	 * @return mixed
+	 */
+	public function get()
+	{
+		// Parse user needle data
+		$domain = Input::get('domain', 'test.test');
+		$module_code = Input::get('module_code', 'menu');
+
+		// Attempt to create key
+		try {
+			$keyauth = new \License\Services\KeyAuth;
+			$keyauth->trial($domain, $module_code);
+		} catch (\License\Exceptions\KeyExiststException $e) {}
+
+		// Give module
+		$module_location = $this->repo->getModuleLocation($module_code);
+		
+		if (file_exists($module_location)) {
+		    return $this->triggerDownload($module_location, $module_code);
+		} else {
+		    return NULL;
+		}
+	}
+
+
+	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
@@ -48,17 +80,16 @@ class ModulesController extends \BaseController {
 		// Create key
 		$keyauth->domain = $domain;
 		$keyauth->module_code = $module_code;
-		// $keyauth->is_trial = true;
+		$keyauth->is_trial = true;
 		$keyauth->key_time = 60*60*24*7;
 		
-		if ($keyauth->make())
-		{
-			echo "key has been created successfully!";
+		try {
+			$keyauth->make();
+		} catch (\License\Exceptions\KeyExiststException $e) {
+			echo "string";
+			die();
 		}
-		else
-		{
-			echo "we got some errors while saving key! :(";
-		}
+		
 
 		return '<br>end of function';
 		// // Get module file location

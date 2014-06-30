@@ -12,7 +12,7 @@ class KeyAuth
 
 	private $generator;
 
-	public $is_trial = FALSE;
+	public $is_trial = false;
 
 	public $key = "";
 	public $domain = "";
@@ -45,6 +45,22 @@ class KeyAuth
 		}
 
 		return $this->createKey();
+	}
+
+
+	/**
+	 * Facade method to create trial key
+	 *
+	 * @return void
+	 */
+	public function trial($domain, $module_code)
+	{
+		$this->domain = $domain;
+		$this->module_code = $module_code;
+		$this->is_trial = true;
+		$this->key_time = 60*60*24*7;
+
+		$this->make();
 	}
 
 
@@ -88,7 +104,6 @@ class KeyAuth
 		$key = $this->keyRepository->store($this->composeKeyParams());
 		
 		// Check if the query was successful
-		// Return true if the update was successful
 		return $key ? true : false;
 	}
 

@@ -46,7 +46,16 @@ class ModuleRepository
 	 */
 	public function find($module_code)
 	{
-		$module = Module::whereCode($module_code)->first();
+		$module = Module::whereHas('types', function($q)
+		{
+		    
+
+		})->get();
+
+		// $module = Module::find(1)->types;
+		// $module = Module::find(1)->types;
+
+		print_r($module); die();
 
 		return $module;
 	}

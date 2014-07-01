@@ -4,6 +4,7 @@
 use License\Models\Module;
 use License\Repositories\ModuleRepository;
 use Input;
+use View;
 
 
 class ModulesController extends \BaseController {
@@ -123,7 +124,9 @@ class ModulesController extends \BaseController {
 	 */
 	public function show($module_code)
 	{
-		return $this->repo->find($module_code);
+		$module = $this->repo->find($module_code);
+
+		return View::make('modules.show', compact('module'));
 	}
 
 

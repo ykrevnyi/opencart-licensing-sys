@@ -1,8 +1,10 @@
 <?php namespace License\Repositories;
 
 
+use License\Exceptions\ModuleNotFoundException;
 use License\Models\Module;
 use DB;
+use View;
 
 
 class ModuleRepository 
@@ -46,18 +48,20 @@ class ModuleRepository
 	 */
 	public function find($module_code)
 	{
-		$module = Module::whereHas('types', function($q)
-		{
-		    
+		// Get module id in order to use build in relations in framework
+		$module = Module::whereCode($module_code)->first();
 
-		})->get();
+		// Ok, we have found some module
+		if ($module) {
+			$module_info = Module::with('types')->find($module->id);
 
-		// $module = Module::find(1)->types;
-		// $module = Module::find(1)->types;
+			return View::make('modules.show')
+				->with('module', $module_info);
+		}
 
-		print_r($module); die();
-
-		return $module;
+		throw new ModuleNotFoundException("Module not found", 0, NULL, array(
+			'module_code' => $module_code
+		));
 	}
 
 

@@ -4,7 +4,6 @@
 use License\Models\Module;
 use License\Repositories\ModuleRepository;
 use Input;
-use View;
 
 
 class ModulesController extends \BaseController {
@@ -72,36 +71,24 @@ class ModulesController extends \BaseController {
 	 */
 	public function create()
 	{
-		$keyauth = new \License\Services\KeyAuth;
+		// $keyauth = new \License\Services\KeyAuth;
 
-		// Parse user needle data
-		$domain = Input::get('domain', 'test.test');
-		$module_code = Input::get('module_code', 'menu');
+		// // Parse user needle data
+		// $domain = Input::get('domain', 'test.test');
+		// $module_code = Input::get('module_code', 'menu');
 
-		// Create key
-		$keyauth->domain = $domain;
-		$keyauth->module_code = $module_code;
-		$keyauth->is_trial = true;
-		$keyauth->key_time = 60*60*24*7;
+		// // Create key
+		// $keyauth->domain = $domain;
+		// $keyauth->module_code = $module_code;
+		// $keyauth->is_trial = true;
+		// $keyauth->key_time = 60*60*24*7;
 		
-		try {
-			$keyauth->make();
-		} catch (\License\Exceptions\KeyExiststException $e) {
-			echo "string";
-			die();
-		}
-		
-
-		return '<br>end of function';
-		// // Get module file location
-		// $module_location = $this->repo->getModuleLocation($module_code);
-
-		// if (file_exists($module_location)) {
-		//     return $this->triggerDownload($module_location, $module_code);
-		// } else {
-		//     return 'Module not found';
+		// try {
+		// 	$keyauth->make();
+		// } catch (\License\Exceptions\KeyExiststException $e) {
+		// 	echo "string";
+		// 	die();
 		// }
-		
 	}
 
 
@@ -124,9 +111,7 @@ class ModulesController extends \BaseController {
 	 */
 	public function show($module_code)
 	{
-		$module = $this->repo->find($module_code);
-
-		return View::make('modules.show', compact('module'));
+		return $this->repo->find($module_code);
 	}
 
 

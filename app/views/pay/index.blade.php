@@ -25,6 +25,26 @@
 
 
 <script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).on('ready', function() {
+		$('#payment').on('submit', function(e) {
+			var module_name = $('#final-module-name').html();
+			var customer_email = $('#final-customer-email').val();
+			var customer_domain = $('#final-customer-domain').val();
+
+			var description = "{{ $module->pay_description }}";
+
+			description = description.replace(/domain/i, customer_domain, description);
+			description = description.replace(/email/i, customer_email, description);
+
+			$(this).find('input[name=ik_desc]').val(description);
+
+			$('#payment').submit();
+			
+			e.preventDefault();
+		});
+	});
+</script>
 
 <style type="text/css">
 body {

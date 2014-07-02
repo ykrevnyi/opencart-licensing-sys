@@ -96,7 +96,7 @@ class KeyAuth
 		}
 
 		$this->expired_at = time() + $this->key_time;
-		
+
 		// Generate key
 		$this->key = $this->generator->make($this->is_trial);
 

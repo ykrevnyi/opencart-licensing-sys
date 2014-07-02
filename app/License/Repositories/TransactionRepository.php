@@ -1,6 +1,9 @@
 <?php namespace License\Repositories;
 
 
+use License\Models\Transaction;
+
+
 class TransactionRepository 
 {
 
@@ -22,8 +25,9 @@ class TransactionRepository
 		$transaction->ik_co_rfn 	= $data['ik_co_rfn'];
 		$transaction->ik_ps_price 	= $data['ik_ps_price'];
 		$transaction->ik_sign 		= $data['ik_sign'];
-		
-		return $transaction->save();
+		$transaction->save();
+
+		return $transaction;
 	}
 
 }

@@ -1,8 +1,11 @@
 <?php namespace License\Controllers;
 
 
+use License\Repositories\TransactionRepository;
 use License\Repositories\ModuleRepository;
+use License\Repositories\KeyRepository;
 use License\Services\Interkassa;
+use License\Services\KeyAuth;
 use License\Models\Module;
 use Cookie;
 use Input;
@@ -13,12 +16,18 @@ class PayController extends BaseController {
 
 
 	private $moduleRepo;
+	private $transactionRepo;
+	private $interkassa;
+	private $keyauth;
 
 
 	function __construct()
 	{
+		$this->keyauth = new KeyAuth;
 		$this->interkassa = new Interkassa;
+		$this->keyRepo = new KeyRepository;
 		$this->moduleRepo = new ModuleRepository;
+		$this->transactionRepo = new TransactionRepository;
 	}
 
 
@@ -50,6 +59,36 @@ class PayController extends BaseController {
 	{
 		$data = Input::all();
 
+		// Get module code
+		$module_code = $data['ik_pm_no'];
+
+		// ///////////////////////////////////////////////
+		// ///////////////////////////////////////////////
+		// ///////////////////////////////////////////////
+		// ///////////////////////////////////////////////
+
+		// Get targer payment description
+		file_put_contents($_SERVER["DOCUMENT_ROOT"] . '/app/hello.txt', 'test');
+
+		$payment_description = htmlspecialchars_decode(Input::get('ik_desc'));
+		// Get customer email
+		preg_match("/(.+)\:\:(.+)/i", $payment_description, $matches);
+		
+		if (isset($matches[1]) AND isset($matches[2]))
+		{
+			$domain = $matches[1];
+			$email = $matches[2];
+		}
+		else
+		{
+			throw new \Exception("Cant get domain and email");
+		}
+
+		// ///////////////////////////////////////////////
+		// ///////////////////////////////////////////////
+		// ///////////////////////////////////////////////
+		// ///////////////////////////////////////////////
+
 		if ($this->interkassa->validate($data))
 		{
 			$transaction = $this->transactionRepo->create($data);
@@ -57,10 +96,20 @@ class PayController extends BaseController {
 			// Check target module info with transaction info
 			if ($this->validateModuleTransaction($data['ik_pm_no'], $data))
 			{
+				// Remove old key
 				$this->keyRepo->remove($domain, $module_code);
-			}
 
+				// Create new key
+				$this->keyauth->transaction_id = $transaction->id;
+				$this->keyauth->module_code = $module_code;
+				$this->keyauth->domain = $domain;
+				$this->keyauth->key_time = 60 * 60 * 24 * 31;
+
+				$key = $this->keyauth->make();
+			}
 		}
+
+		return 'hello';
 	}
 
 
@@ -75,8 +124,10 @@ class PayController extends BaseController {
 
 		if ( ! $module OR $module->price < $data['ik_am'] OR $data['ik_cur'] != 'USD')
 		{
-			throw new Exception("Error in pay controller::create()");
+			throw new \Exception("Error in pay controller::create()");
 		}
+
+		return true;
 	}
 
 

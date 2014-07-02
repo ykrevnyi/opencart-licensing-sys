@@ -6,7 +6,7 @@ use License\Repositories\ModuleRepository;
 use Input;
 
 
-class ModulesController extends \BaseController {
+class ModulesController extends BaseController {
 
 
 	private $repo;
@@ -24,10 +24,20 @@ class ModulesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$modules = $this->repo->all();
+		// Parse referer host
+		$domain = NULL;
+
+		if (isset($_SERVER['HTTP_REFERER']))
+		{
+			$parse = parse_url($_SERVER['HTTP_REFERER']);
+			$domain = $parse['host'];
+		}
+
+		$modules = $this->repo->all($domain);
+		$modules = $this->repo->getModulesTypes($modules);
+		
 		$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
 
-		// print_r($modules); die();
 		return $callback . '(' . json_encode($modules) . ')';
 	}
 
@@ -44,8 +54,12 @@ class ModulesController extends \BaseController {
 	public function get()
 	{
 		// Parse user needle data
-		$domain = Input::get('domain', 'test.test');
-		$module_code = Input::get('module_code', 'menu');
+		$domain = Input::get('domain', '');
+		$module_code = Input::get('module_code', '');
+
+		if (empty($module_code) OR ! count($this->repo->find($module_code))) {
+			echo "You should specify a module code"; die();
+		}
 
 		// Attempt to create key
 		try {
@@ -111,7 +125,10 @@ class ModulesController extends \BaseController {
 	 */
 	public function show($module_code)
 	{
-		return $this->repo->find($module_code);
+		$module = $this->repo->find($module_code);
+
+		return View::make('modules.show')
+				->with('module', $module_info);
 	}
 
 

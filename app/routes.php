@@ -16,10 +16,13 @@ use License\Repositories\KeyRepository;
 
 Route::get('modules/get', '\License\Controllers\ModulesController@get');
 Route::resource('modules', '\License\Controllers\ModulesController');
+Route::resource('pay', '\License\Controllers\PayController');
 
 Route::get('/', function()
 {
 	$keyRepository = new KeyRepository;
+
+	return View::make('emails.key-created');
 
 	// if ($keyRepository->find('DEMO')) {
 	// 	return 'hey!';
@@ -31,3 +34,12 @@ Route::get('/', function()
 
 	
 });
+
+
+// Display all SQL executed in Eloquent
+// Event::listen('illuminate.query', function($query)
+// {
+//     echo "\n\n\n";
+//     print_r($query);
+//     echo "\n\n\n";
+// });

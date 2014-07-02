@@ -116,7 +116,7 @@ class KeyAuth
 	private function composeKeyParams()
 	{
 		return array(
-			'domain' 		=> $this->domain,
+			'domain' 		=> empty($this->domain) ? 'NULL' : $this->domain,
 			'key' 			=> $this->key,
 			'module_code' 	=> $this->module_code,
 			'module_type' 	=> 2,

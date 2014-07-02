@@ -43,3 +43,6 @@ Route::get('/', function()
 //     print_r($query);
 //     echo "\n\n\n";
 // });
+
+
+// window.open('http://dev.website-builder.ru/pay?domain=opencart.dev&email=testemail@gmail.com&module_code=menu');

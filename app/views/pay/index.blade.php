@@ -15,6 +15,8 @@
 	        <input id="final-customer-email" type="text" value="{{ $email }}" placeholder="Введите email">
 		    <input id="final-customer-domain" type="text" value="{{ $domain }}" placeholder="Введите ваш домен">
 
+		    {{ Form::select('module_types', $module->types->lists('name','id'), $module_type, array('id' => 'final-module_type')) }}
+
 		    <button type="submit" class="btn btn-info">
 		    	Оплатить
 		    </button>
@@ -31,11 +33,13 @@
 			var module_name = $('#final-module-name').html();
 			var customer_email = $('#final-customer-email').val();
 			var customer_domain = $('#final-customer-domain').val();
+			var module_type = $('#final-module_type').val();
 
 			var description = "{{ $module->pay_description }}";
 
 			description = description.replace(/domain/i, customer_domain, description);
 			description = description.replace(/email/i, customer_email, description);
+			description = description.replace(/type/i, module_type, description);
 
 			$(this).find('input[name=ik_desc]').val(description);
 

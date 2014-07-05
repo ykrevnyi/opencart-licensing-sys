@@ -85,6 +85,25 @@ class ModuleRepository
 	}
 
 
+	/**
+	 * Get the best tariff type of module
+	 *
+	 * @return mixed
+	 */
+	public function getBestModuleType($module_code)
+	{
+		return DB::table('module_type AS mt')
+			->select('mt.*')
+			->where(
+				'mt.module_id',
+				DB::raw("(SELECT id FROM modules WHERE code = 'menu' LIMIT 1)")
+			)
+			->orderBy('mt.price', 'DESC')
+			->first()
+			->id;
+	}
+
+
 
 	/**
 	 * Find module by its code
@@ -173,7 +192,6 @@ class ModuleRepository
 
 		return $_SERVER["DOCUMENT_ROOT"] . "/public/modules/" . $module_code . ".zip";
 	}
-
 
 
 }

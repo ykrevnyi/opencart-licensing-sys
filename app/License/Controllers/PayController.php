@@ -8,6 +8,7 @@ use License\Services\Interkassa;
 use License\Services\KeyAuth;
 use License\Models\Module;
 use Cookie;
+use Event;
 use Input;
 use View;
 
@@ -45,6 +46,7 @@ class PayController extends BaseController {
 		$this->layout->content = View::make('pay.index')
 			->with('domain', $params['domain'])
 			->with('email', $params['email'])
+			->with('module_type', $params['module_type'])
 			->with('module', $module);
 		
 	}
@@ -62,33 +64,10 @@ class PayController extends BaseController {
 		// Get module code
 		$module_code = $data['ik_pm_no'];
 
-		// ///////////////////////////////////////////////
-		// ///////////////////////////////////////////////
-		// ///////////////////////////////////////////////
-		// ///////////////////////////////////////////////
+		// Get customer target data (email, domain, module type)
+		$customerInfo = $this->parseCustomerTargetInfo($data);
 
-		// Get targer payment description
-		file_put_contents($_SERVER["DOCUMENT_ROOT"] . '/app/hello.txt', 'test');
-
-		$payment_description = htmlspecialchars_decode(Input::get('ik_desc'));
-		// Get customer email
-		preg_match("/(.+)\:\:(.+)/i", $payment_description, $matches);
-		
-		if (isset($matches[1]) AND isset($matches[2]))
-		{
-			$domain = $matches[1];
-			$email = $matches[2];
-		}
-		else
-		{
-			throw new \Exception("Cant get domain and email");
-		}
-
-		// ///////////////////////////////////////////////
-		// ///////////////////////////////////////////////
-		// ///////////////////////////////////////////////
-		// ///////////////////////////////////////////////
-
+		// Create new transactions and keys
 		if ($this->interkassa->validate($data))
 		{
 			$transaction = $this->transactionRepo->create($data);
@@ -97,15 +76,18 @@ class PayController extends BaseController {
 			if ($this->validateModuleTransaction($data['ik_pm_no'], $data))
 			{
 				// Remove old key
-				$this->keyRepo->remove($domain, $module_code);
+				$this->keyRepo->remove($customerInfo['domain'], $module_code);
 
 				// Create new key
 				$this->keyauth->transaction_id = $transaction->id;
 				$this->keyauth->module_code = $module_code;
-				$this->keyauth->domain = $domain;
+				$this->keyauth->module_type = $customerInfo['module_type'];
+				$this->keyauth->domain = $customerInfo['domain'];
 				$this->keyauth->key_time = 60 * 60 * 24 * 31;
 
 				$key = $this->keyauth->make();
+
+				Event::fire('email.license.created', $customerInfo);
 			}
 		}
 
@@ -136,7 +118,7 @@ class PayController extends BaseController {
 	 *
 	 * @return mixed
 	 */
-	public function parseCustomerInfo()
+	private function parseCustomerInfo()
 	{
 		// Parse domain
 		$domain = NULL;
@@ -152,11 +134,42 @@ class PayController extends BaseController {
 		// Parse module code
 		$module_code = Input::get('module_code', 'undefined');
 
+		// Parse module type
+		$module_type = Input::get('module_type', '');
+
 		return array(
 			'domain' 		=> $domain,
 			'email' 		=> $email,
-			'module_code' 	=> $module_code
+			'module_code' 	=> $module_code,
+			'module_type'	=> $module_type
 		);
+	}
+
+
+	/**
+	 * Parse customer targe info such as email, domain and module type
+	 * in order to store this info in our database
+	 *
+	 * @return mixed
+	 */
+	private function parseCustomerTargetInfo()
+	{
+		// Get Interkassa description field
+		$payment_description = htmlspecialchars_decode(Input::get('ik_desc'));
+
+		// And here we will parse needle data
+		preg_match("/^(.+)\:\:(.+)\:\:(.+)$/i", $payment_description, $matches);
+		
+		if (isset($matches[1]) AND isset($matches[2]) AND isset($matches[3]))
+		{
+			return array(
+				'email' => $matches[1],
+				'domain' => $matches[2],
+				'module_type' => $matches[3]
+			);
+		}
+		
+		throw new \Exception("Cant get domain and email");
 	}
 
 

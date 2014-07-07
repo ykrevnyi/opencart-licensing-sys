@@ -94,4 +94,17 @@ class KeyRepository
 	}
 
 
+	/**
+	 * Remove key
+	 *
+	 * @return void
+	 */
+	public function remove($domain, $module_code)
+	{
+		Key::where('domain', $domain)
+			->where('module_code', $module_code)
+			->delete();
+	}
+
+
 }

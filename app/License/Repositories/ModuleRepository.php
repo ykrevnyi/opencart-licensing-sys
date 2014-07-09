@@ -58,16 +58,14 @@ class ModuleRepository
 	 *
 	 * @return mixed
 	 */
-	public function getModulesTypes($modules)
+	public function getModulesTypes($modules, $domain)
 	{
+		$purchased_module_codes = $this->getPurchasedModules($domain);
+
 		foreach ($modules['apps'] as $key => $module)
 		{
 			// Get module types (basic, pro...)
-			$module_types = Module::with(array('types' => function($query) use ($module) {
-				$query->where('module_id', $module['id']);
-			}))->first();
-
-			$module_types_array = $module_types->types->toArray();
+			$module_types_array = Module::find($module['id'])->types->toArray();
 
 			// Set active state to the module type
 			foreach ($module_types_array as $type_key => $type)
@@ -76,12 +74,54 @@ class ModuleRepository
 				{
 					$module_types_array[$type_key]['active'] = true;
 				}
+
+				// Calculate version price
+				if ( ! $this->moduleIsPurchased($module['system_name'], $purchased_module_codes))
+				{
+					$module_types_array[$type_key]['price'] += $module['price'];
+				}
 			}
 
 			$modules['apps'][$key]['types'] = $module_types_array;
 		}
 
 		return $modules;
+	}
+
+
+	/**
+	 * Chekc if module to domain exists
+	 *
+	 * @return bool
+	 */
+	private function moduleIsPurchased($module_code, $purchased_module_codes)
+	{
+		foreach ($purchased_module_codes as $code)
+		{
+			if ($code == $module_code)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * Get list of purchased modules to the domain
+	 *
+	 * @return mixed
+	 */
+	private function getPurchasedModules($domain)
+	{
+		return DB::table('keys as k')
+			->where('domain', $domain)
+			->where('active', 1)
+			// ->where('key', '!=', 'DEMO')
+			->where('key', '!=', '!!! DEMO !!!')
+			->groupBy('module_code')
+			->lists('module_code');
 	}
 
 

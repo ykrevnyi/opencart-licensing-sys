@@ -12,10 +12,25 @@
 		<input type="hidden" name="ik_sign" value="821nsSUuTIN/njMBN/cs8Q==">
 
 	    <div class="box">
-	        <input id="final-customer-email" type="text" value="{{ $email }}" placeholder="Введите email">
-		    <input id="final-customer-domain" type="text" value="{{ $domain }}" placeholder="Введите ваш домен">
+		    <div class="form-group">
+		        <input id="final-customer-email" type="text" value="{{ $email }}" placeholder="Введите email">
+			    <input id="final-customer-domain" type="text" value="{{ $domain }}" placeholder="Введите ваш домен">
+		    </div>
 
-		    {{ Form::select('module_types', $module->types->lists('name','id'), $module_type, array('id' => 'final-module_type')) }}
+		    <div class="form-group">
+		    	<select name="module_types" id="final-module-type">
+			    	@foreach ($module->types->toArray() as $module_type)
+			    		<option 
+			    			value="{{ $module_type['id'] }}" 
+			    			data-price="{{ $module_type['price'] }}" 
+		    			>{{ $module_type['name'] }}</option>
+			    	@endforeach
+		    	</select>
+		    </div>
+		    
+		    <div class="alert alert-info form-group" id="total-price">
+		    	Total price - <span>10$</span>
+		    </div>
 
 		    <button type="submit" class="btn btn-info">
 		    	Оплатить
@@ -33,7 +48,7 @@
 			var module_name = $('#final-module-name').html();
 			var customer_email = $('#final-customer-email').val();
 			var customer_domain = $('#final-customer-domain').val();
-			var module_type = $('#final-module_type').val();
+			var module_type = $('#final-module-type').val();
 
 			var description = "{{ $module->pay_description }}";
 
@@ -47,6 +62,20 @@
 			
 			e.preventDefault();
 		});
+
+		$('#final-module-type').on('change', function() {
+			var $this = $(this),
+				price = $this.find('option:checked').data('price');
+
+			$('#total-price span').html(price + '$');
+
+			if (price <= 0) {
+				$('#payment button[type=submit]').attr('disabled', true);
+			} else {
+				$('#payment button[type=submit]').attr('disabled', false);
+			};
+
+		}).trigger('change');
 	});
 </script>
 

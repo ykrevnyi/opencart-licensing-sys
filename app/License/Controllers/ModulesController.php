@@ -33,8 +33,10 @@ class ModulesController extends BaseController {
 			$domain = $parse['host'];
 		}
 
+		// $domain = 'test.test';
+
 		$modules = $this->repo->all($domain);
-		$modules = $this->repo->getModulesTypes($modules);
+		$modules = $this->repo->getModulesTypes($modules, $domain);
 		
 		$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
 

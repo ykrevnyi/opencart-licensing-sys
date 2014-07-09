@@ -87,7 +87,15 @@ class PayController extends BaseController {
 
 				$key = $this->keyauth->make();
 
-				// Event::fire('email.license.created', $customerInfo);
+				// Send email with needle info to the customer
+				Event::fire('email.license.created', array(
+					'key' => $key,
+					'info' => $customerInfo,
+					'module' => $this->moduleRepo->find(
+						$data['ik_pm_no'],
+						$customerInfo['domain']
+					)
+				));
 			}
 		}
 
@@ -113,7 +121,7 @@ class PayController extends BaseController {
 				$module_real_price = $type['price'];
 			}
 		}
-\Log::info($module_real_price);
+
 		// Check if transaction was good and without any type of fraud
 		if ( ! $module OR $module_real_price < $data['ik_am'] OR $data['ik_cur'] != 'USD')
 		{

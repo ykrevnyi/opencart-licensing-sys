@@ -9,9 +9,25 @@ class LicenseHandler {
      *
      * @return void
      */
-    public function sendKeyToCustomer($event)
+    public function sendKeyToCustomer($key, $customerInfo, $module)
     {
-        Log::info('sending new license key to the user.');
+        \Log::info($key);
+        \Log::info($customerInfo);
+        \Log::info($module);
+
+        $data = array(
+            'key' => $key,
+            'info' => $customerInfo,
+            'module' => $module
+        );
+        
+        \Mail::send('emails.key-created', $data, function($message)
+        {
+            $message
+                ->from('admin@dev.com', 'Test')
+                ->to('yuriikrevnyi@gmail.com', 'Name')
+                ->subject('Here your license key!');
+        });
     }
 
 
@@ -22,7 +38,10 @@ class LicenseHandler {
      */
     public function subscribe($events)
     {
-        $events->listen('email.license.created', 'UserEventHandler@sendKeyToCustomer');
+        $events->listen(
+            'email.license.created',
+            'License\Handlers\LicenseHandler@sendKeyToCustomer'
+        );
     }
 
 }

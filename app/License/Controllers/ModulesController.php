@@ -59,7 +59,7 @@ class ModulesController extends BaseController {
 		$domain = Input::get('domain', '');
 		$module_code = Input::get('module_code', '');
 
-		if (empty($module_code) OR ! count($this->repo->find($module_code))) {
+		if (empty($module_code) OR ! count($this->repo->find($module_code, $domain))) {
 			echo "You should specify a module code"; die();
 		}
 

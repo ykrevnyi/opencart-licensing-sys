@@ -1,12 +1,12 @@
 <div class="jumbotron">
   <div class="container">
     <span class="glyphicon glyphicon-list-alt"></span>
-    <h2>{{ $module->name }}</h2>
+    <h2>{{ $module['name'] }}</h2>
 
     <form id="payment" name="payment" method="post" action="https://sci.interkassa.com/" enctype="utf-8">
     	<input type="hidden" name="ik_co_id" value="5370b755bf4efccb31ad6f90" />
-		<input type="hidden" name="ik_pm_no" value="{{ $module->code }}" />
-		<input type="hidden" name="ik_am" value="{{ $module->price }}" />
+		<input type="hidden" name="ik_pm_no" value="{{ $module['code'] }}" />
+		<input id="module-price-internal" type="hidden" name="ik_am" value="{{ $module['price'] }}" />
 		<input type="hidden" name="ik_cur" value="USD" />
 		<input type="hidden" name="ik_desc" value="" />
 		<input type="hidden" name="ik_sign" value="821nsSUuTIN/njMBN/cs8Q==">
@@ -19,7 +19,7 @@
 
 		    <div class="form-group">
 		    	<select name="module_types" id="final-module-type">
-			    	@foreach ($module->types->toArray() as $module_type)
+			    	@foreach ($module['types'] as $module_type)
 			    		<option 
 			    			value="{{ $module_type['id'] }}" 
 			    			data-price="{{ $module_type['price'] }}" 
@@ -50,7 +50,7 @@
 			var customer_domain = $('#final-customer-domain').val();
 			var module_type = $('#final-module-type').val();
 
-			var description = "{{ $module->pay_description }}";
+			var description = "{{ $module['pay_description'] }}";
 
 			description = description.replace(/domain/i, customer_domain, description);
 			description = description.replace(/email/i, customer_email, description);
@@ -67,6 +67,7 @@
 			var $this = $(this),
 				price = $this.find('option:checked').data('price');
 
+			$('#module-price-internal').val(price);
 			$('#total-price span').html(price + '$');
 
 			if (price <= 0) {

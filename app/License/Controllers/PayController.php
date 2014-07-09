@@ -41,7 +41,7 @@ class PayController extends BaseController {
 	{
 		// Parse all the customer params
 		$params = $this->parseCustomerInfo();
-		$module = $this->moduleRepo->find($params['module_code']);
+		$module = $this->moduleRepo->find($params['module_code'], $params['domain']);
 
 		$this->layout->content = View::make('pay.index')
 			->with('domain', $params['domain'])
@@ -73,7 +73,7 @@ class PayController extends BaseController {
 			$transaction = $this->transactionRepo->create($data);
 
 			// Check target module info with transaction info
-			if ($this->validateModuleTransaction($data['ik_pm_no'], $data))
+			if ($this->validateModuleTransaction($data['ik_pm_no'], $customerInfo, $data))
 			{
 				// Remove old key
 				$this->keyRepo->remove($customerInfo['domain'], $module_code);
@@ -87,7 +87,7 @@ class PayController extends BaseController {
 
 				$key = $this->keyauth->make();
 
-				Event::fire('email.license.created', $customerInfo);
+				// Event::fire('email.license.created', $customerInfo);
 			}
 		}
 
@@ -100,11 +100,22 @@ class PayController extends BaseController {
 	 *
 	 * @return mixed
 	 */
-	private function validateModuleTransaction($module_code, $data)
+	private function validateModuleTransaction($module_code, $customerInfo, $data)
 	{
-		$module = $this->moduleRepo->find($data['ik_pm_no']);
+		$module = $this->moduleRepo->find($data['ik_pm_no'], $customerInfo['domain']);
 
-		if ( ! $module OR $module->price < $data['ik_am'] OR $data['ik_cur'] != 'USD')
+		// Get price of needle type
+		$module_real_price = NULL;
+		foreach ($module['types'] as $type)
+		{
+			if ($type['id'] == $customerInfo['module_type'])
+			{
+				$module_real_price = $type['price'];
+			}
+		}
+\Log::info($module_real_price);
+		// Check if transaction was good and without any type of fraud
+		if ( ! $module OR $module_real_price < $data['ik_am'] OR $data['ik_cur'] != 'USD')
 		{
 			throw new \Exception("Error in pay controller::create()");
 		}

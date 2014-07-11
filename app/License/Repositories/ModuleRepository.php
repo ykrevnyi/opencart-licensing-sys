@@ -52,18 +52,45 @@ class ModuleRepository
 
 
 	/**
-	 * Find module by its code
+	 * Get module by it's code
 	 *
-	 * @return void
+	 * @return array
+	 */
+	public function getModule($module_code, $domain)
+	{
+		// Get module type id
+		$module_type = "
+			SELECT `k`.`module_type` 
+            FROM `keys` as `k` 
+            WHERE 
+            	`k`.`module_code` = `m`.`code` AND 
+            	`k`.`domain` = '" . $domain . "' 
+            LIMIT 1 
+		";
+
+		return (array) DB::table('modules as m')
+			->select(
+				'm.*',
+				DB::raw("(" . $module_type . ") as module_type")
+			)
+			->where('code', $module_code)
+			->first();
+	}
+
+
+	/**
+	 * Find module by its code with all data (types, selected type)
+	 *
+	 * @return mixed
 	 */
 	public function find($module_code, $domain)
 	{
 		// Get module id in order to use build in relations in framework
-		$module = Module::whereCode($module_code)->first()->toArray();
+		$module = $this->getModule($module_code, $domain);
 
 		// Ok, we have found some module
-		if ($module) {
-			// $module_info = Module::with('types')->find($module->id);
+		if ($module)
+		{
 			$module_info = $this->populateModuleWithTypes($module, $domain);
 
 			return $module_info;
@@ -156,8 +183,7 @@ class ModuleRepository
 		return DB::table('keys as k')
 			->where('domain', $domain)
 			->where('active', 1)
-			// ->where('key', '!=', 'DEMO')
-			->where('key', '!=', '!!! DEMO !!!')
+			->where('key', '!=', 'DEMO')
 			->groupBy('module_code')
 			->lists('module_code');
 	}

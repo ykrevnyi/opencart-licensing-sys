@@ -42,7 +42,7 @@ class PayController extends BaseController {
 		// Parse all the customer params
 		$params = $this->parseCustomerInfo();
 		$module = $this->moduleRepo->find($params['module_code'], $params['domain']);
-
+		
 		$this->layout->content = View::make('pay.index')
 			->with('domain', $params['domain'])
 			->with('email', $params['email'])

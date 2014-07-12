@@ -19,11 +19,15 @@
 
 		    <div class="form-group">
 		    	<select name="module_types" id="final-module-type">
-			    	@foreach ($module['types'] as $module_type)
-			    		<option 
-			    			value="{{ $module_type['id'] }}" 
-			    			data-price="{{ $module_type['price'] }}" 
-		    			>{{ $module_type['name'] }}</option>
+			    	@foreach ($module['types'] as $type)
+			    		@if ($type['id'] == $module_type)
+			    			<option selected="selected" 
+			    		@else
+			    			<option 
+			    		@endif
+			    			value="{{ $type['id'] }}" 
+			    			data-price="{{ $type['price'] }}" 
+		    			>{{ $type['name'] }}</option>
 			    	@endforeach
 		    	</select>
 		    </div>

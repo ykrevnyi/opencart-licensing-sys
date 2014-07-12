@@ -37,13 +37,25 @@ class ModuleRepository
             LIMIT 1 
 		";
 
+		// Check if module was purchased
+		$module_purchased = "
+			SELECT `k`.`key` 
+            FROM `keys` as `k` 
+            WHERE 
+            	`k`.`module_code` = `m`.`code` AND 
+            	`k`.`domain` = '" . $domain . "' AND 
+            	`k`.`key` != 'DEMO' 
+            LIMIT 1 
+		";
+
 
 		// Fetch modules info
 		$modules = DB::table('modules as m')
 			->select(
 				'm.*',
 				DB::raw("(" . $module_keys . ") as key_expired_at"),
-				DB::raw("(" . $module_type . ") as module_type")
+				DB::raw("(" . $module_type . ") as module_type"),
+				DB::raw("(" . $module_purchased . ") as module_purchased")
 			)
 			->get();
 
@@ -156,6 +168,11 @@ class ModuleRepository
 			// Set active module type if purchased
 			if (isset($module['module_type']) AND $module['module_type'] == $type['id'])
 			{
+				if ( ! $this->moduleIsPurchased($module['code'], $purchased_modules))
+				{
+					$module_types[$key]['is_trial'] = true;
+				}
+				
 				$module_types[$key]['active'] = true;
 			}
 
@@ -243,6 +260,9 @@ class ModuleRepository
 		        }
 		    }
 
+		    // Check if module was purchased
+		    $module_purchased = empty($module->module_purchased) ? false : true;
+
 		    $result['apps'][] = array(
 				"id" 			=> $module->id,
 		    	"image" 		=> 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png',
@@ -253,7 +273,8 @@ class ModuleRepository
 		        "code" 			=> $module->code,
 		        "module_type" 	=> $module->module_type,
 		        "expired_at" 	=> $expired_at,
-				"days_left" 	=> $days_left
+				"days_left" 	=> $days_left,
+				"purchased" 	=> $module_purchased
 			);
 		}
 

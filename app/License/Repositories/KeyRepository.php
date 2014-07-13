@@ -90,7 +90,7 @@ class KeyRepository
 	{
 		$key = Key::create($keyProperties);
 
-		return $key;
+		return $key->key;
 	}
 
 

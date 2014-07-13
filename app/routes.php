@@ -17,9 +17,7 @@ Route::resource('pay', '\License\Controllers\PayController');
 // for test only
 Route::get('/', function()
 {
-	$keyRepository = new KeyRepository;
-
-	return View::make('emails.key-created');
+	return 'home';
 });
 
 

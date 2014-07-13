@@ -37,17 +37,80 @@ class ModuleRepository
             LIMIT 1 
 		";
 
+		// Check if module was purchased
+		$module_purchased = "
+			SELECT `k`.`key` 
+            FROM `keys` as `k` 
+            WHERE 
+            	`k`.`module_code` = `m`.`code` AND 
+            	`k`.`domain` = '" . $domain . "' AND 
+            	`k`.`key` != 'DEMO' 
+            LIMIT 1 
+		";
+
 
 		// Fetch modules info
 		$modules = DB::table('modules as m')
 			->select(
 				'm.*',
 				DB::raw("(" . $module_keys . ") as key_expired_at"),
-				DB::raw("(" . $module_type . ") as module_type")
+				DB::raw("(" . $module_type . ") as module_type"),
+				DB::raw("(" . $module_purchased . ") as module_purchased")
 			)
 			->get();
 
 		return $this->format($modules);
+	}
+
+
+	/**
+	 * Get module by it's code
+	 *
+	 * @return array
+	 */
+	public function getModule($module_code, $domain)
+	{
+		// Get module type id
+		$module_type = "
+			SELECT `k`.`module_type` 
+            FROM `keys` as `k` 
+            WHERE 
+            	`k`.`module_code` = `m`.`code` AND 
+            	`k`.`domain` = '" . $domain . "' 
+            LIMIT 1 
+		";
+
+		return (array) DB::table('modules as m')
+			->select(
+				'm.*',
+				DB::raw("(" . $module_type . ") as module_type")
+			)
+			->where('code', $module_code)
+			->first();
+	}
+
+
+	/**
+	 * Find module by its code with all data (types, selected type)
+	 *
+	 * @return mixed
+	 */
+	public function find($module_code, $domain)
+	{
+		// Get module id in order to use build in relations in framework
+		$module = $this->getModule($module_code, $domain);
+
+		// Ok, we have found some module
+		if ($module)
+		{
+			$module_info = $this->populateModuleWithTypes($module, $domain);
+
+			return $module_info;
+		}
+
+		throw new ModuleNotFoundException("Module not found", 0, NULL, array(
+			'module_code' => $module_code
+		));
 	}
 
 
@@ -58,27 +121,11 @@ class ModuleRepository
 	 *
 	 * @return mixed
 	 */
-	public function getModulesTypes($modules)
+	public function getModulesTypes($modules, $domain)
 	{
 		foreach ($modules['apps'] as $key => $module)
 		{
-			// Get module types (basic, pro...)
-			$module_types = Module::with(array('types' => function($query) use ($module) {
-				$query->where('module_id', $module['id']);
-			}))->first();
-
-			$module_types_array = $module_types->types->toArray();
-
-			// Set active state to the module type
-			foreach ($module_types_array as $type_key => $type)
-			{
-				if ($module['module_type'] == $type['id'])
-				{
-					$module_types_array[$type_key]['active'] = true;
-				}
-			}
-
-			$modules['apps'][$key]['types'] = $module_types_array;
+			$modules['apps'][$key] = $this->populateModuleWithTypes($module, $domain);
 		}
 
 		return $modules;
@@ -104,27 +151,77 @@ class ModuleRepository
 	}
 
 
-
 	/**
-	 * Find module by its code
+	 * Populate simple module with type (with calculated price)
 	 *
-	 * @return void
+	 * @return mixed
 	 */
-	public function find($module_code)
+	private function populateModuleWithTypes($module, $domain)
 	{
-		// Get module id in order to use build in relations in framework
-		$module = Module::whereCode($module_code)->first();
+		// Get module types (basic, pro...)
+		$module_types = Module::find($module['id'])->types->toArray();
+		$purchased_modules = $this->getPurchasedModules($domain);
 
-		// Ok, we have found some module
-		if ($module) {
-			$module_info = Module::with('types')->find($module->id);
+		// Set active state to the module type
+		foreach ($module_types as $key => $type)
+		{
+			// Set active module type if purchased
+			if (isset($module['module_type']) AND $module['module_type'] == $type['id'])
+			{
+				if ( ! $this->moduleIsPurchased($module['code'], $purchased_modules))
+				{
+					$module_types[$key]['is_trial'] = true;
+				}
+				
+				$module_types[$key]['active'] = true;
+			}
 
-			return $module_info;
+			// Calculate version price
+			if ( ! $this->moduleIsPurchased($module['code'], $purchased_modules))
+			{
+				$module_types[$key]['price'] += $module['price'];
+			}
 		}
 
-		throw new ModuleNotFoundException("Module not found", 0, NULL, array(
-			'module_code' => $module_code
-		));
+		// Store module types
+		$module['types'] = $module_types;
+
+		return $module;
+	}
+
+
+	/**
+	 * Get list of purchased modules to the domain
+	 *
+	 * @return mixed
+	 */
+	private function getPurchasedModules($domain)
+	{
+		return DB::table('keys as k')
+			->where('domain', $domain)
+			->where('active', 1)
+			->where('key', '!=', 'DEMO')
+			->groupBy('module_code')
+			->lists('module_code');
+	}
+
+
+	/**
+	 * Chekc if module to domain exists
+	 *
+	 * @return bool
+	 */
+	private function moduleIsPurchased($module_code, $purchased_modules)
+	{
+		foreach ($purchased_modules as $code)
+		{
+			if ($code == $module_code)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 
@@ -163,6 +260,9 @@ class ModuleRepository
 		        }
 		    }
 
+		    // Check if module was purchased
+		    $module_purchased = empty($module->module_purchased) ? false : true;
+
 		    $result['apps'][] = array(
 				"id" 			=> $module->id,
 		    	"image" 		=> 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png',
@@ -170,10 +270,11 @@ class ModuleRepository
 				"category" 		=> $module->category,
 				"updated_at" 	=> "Updated " . $module->updated_at,
 				"price" 		=> $module->price . "$",
-		        "system_name" 	=> $module->code,
+		        "code" 			=> $module->code,
 		        "module_type" 	=> $module->module_type,
 		        "expired_at" 	=> $expired_at,
-				"days_left" 	=> $days_left
+				"days_left" 	=> $days_left,
+				"purchased" 	=> $module_purchased
 			);
 		}
 

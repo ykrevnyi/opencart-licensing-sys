@@ -110,7 +110,7 @@ class KeyAuth
 		$key = $this->keyRepo->store($this->composeKeyParams());
 		
 		// Check if the query was successful
-		return $key ? true : false;
+		return $key;
 	}
 
 

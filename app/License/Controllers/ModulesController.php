@@ -1,8 +1,9 @@
 <?php namespace License\Controllers;
 
 
-use License\Models\Module;
 use License\Repositories\ModuleRepository;
+use License\Output\ModuleFormFormater;
+use License\Models\Module;
 use Input;
 use View;
 
@@ -29,8 +30,6 @@ class ModulesController extends BaseController {
 		$domain = $this->parseDomain();
 
 		$modules = $this->repo->all($domain);
-		$modules = $this->repo->getModulesTypes($modules, $domain);
-		
 		$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
 
 		return $callback . '(' . json_encode($modules) . ')';
@@ -103,8 +102,18 @@ class ModulesController extends BaseController {
 	 */
 	public function show($module_code)
 	{
+		$formater = new ModuleFormFormater;
+
 		$domain = $this->parseDomain();
-		$module = $this->repo->find($module_code, $domain);
+		$module = (object) $this->repo->find($module_code, $domain);
+		$module = $formater->format($module);
+
+		if (Input::has('jsonp'))
+		{
+			$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
+
+			return $callback . '(' . json_encode($module) . ')';
+		}
 
 		return View::make('modules.show')
 				->with('module', $module);

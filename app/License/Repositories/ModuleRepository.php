@@ -257,4 +257,16 @@ class ModuleRepository
 	}
 
 
+	/**
+	 * Increment amount of module downloads
+	 *
+	 * @return void
+	 */
+	public function incrementDownload($module_code)
+	{
+		$module = Module::whereCode($module_code)->first();
+		$module->increment('downloads');
+	}
+
+
 }

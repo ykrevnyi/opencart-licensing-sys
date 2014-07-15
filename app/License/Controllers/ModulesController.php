@@ -51,15 +51,25 @@ class ModulesController extends BaseController {
 		$domain = Input::get('domain', '');
 		$module_code = Input::get('module_code', '');
 
-		if (empty($module_code) OR ! count($this->repo->find($module_code, $domain))) {
-			echo "You should specify a module code"; die();
-		}
+		// If module code is `self` -> we just want to perform `self update`
+		// We don't want to store any keys or chek module existence
+		if ($module_code != 'self')
+		{
+			if (empty($module_code) OR ! count($this->repo->find($module_code, $domain)))
+			{
+				echo "You should specify a module code"; die();
+			}
 
-		// Attempt to create key
-		try {
-			$keyauth = new \License\Services\KeyAuth;
-			$keyauth->trial($domain, $module_code);
-		} catch (\License\Exceptions\KeyExiststException $e) {}
+			// Attempt to create key
+			try {
+				$keyauth = new \License\Services\KeyAuth;
+				$keyauth->trial($domain, $module_code);
+			}
+			catch (\License\Exceptions\KeyExiststException $e) {}
+
+			// Increment module download
+			$this->repo->incrementDownload($module_code);
+		}
 
 		// Give module
 		$module_location = $this->repo->getModuleLocation($module_code);

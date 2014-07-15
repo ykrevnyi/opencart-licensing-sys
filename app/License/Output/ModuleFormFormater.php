@@ -44,6 +44,8 @@ class ModuleFormFormater implements ModuleFormaterInterface
 			"purchased_key"	=> $module->purchased_key,
 	    	"image" 		=> 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png',
 			"title" 		=> $module->name,
+			"description" 	=> $module->description,
+			"downloads" 	=> $module->downloads,
 			"category" 		=> $module->category,
 			"updated_at" 	=> "Updated " . $module->updated_at,
 			"min_price"		=> $this->getCheapestModuleType($module->types),

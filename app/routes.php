@@ -11,6 +11,13 @@ Route::get('modules/get', '\License\Controllers\ModulesController@get');
 Route::resource('modules', '\License\Controllers\ModulesController');
 Route::resource('pay', '\License\Controllers\PayController');
 
+// Get actual version of the script
+Route::get('version', function()
+{
+	return Response::json(array(
+		'version' => '0.2'
+	))->setCallback(Input::get('callback'));
+});
 
 
 

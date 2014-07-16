@@ -13,6 +13,9 @@ use View;
 class ModuleRepository 
 {
 
+	private $language_code = 'en';
+
+
 	/**
 	 * Base selector of the modules
 	 *
@@ -51,6 +54,25 @@ class ModuleRepository
             LIMIT 1 
 		";
 
+		// Get localized name
+		$name = "
+			SELECT `ml`.`name` 
+            FROM `modules_language` as `ml` 
+            WHERE 
+            	`ml`.`module_id` = `m`.`id` AND 
+            	`ml`.`language_code` = '" . $this->language_code . "' 
+            LIMIT 1 
+		";
+
+		// Get localized description
+		$description = "
+			SELECT `ml`.`description` 
+            FROM `modules_language` as `ml` 
+            WHERE 
+            	`ml`.`module_id` = `m`.`id` AND 
+            	`ml`.`language_code` = '" . $this->language_code . "' 
+            LIMIT 1 
+		";
 
 		// Fetch modules info
 		return DB::table('modules as m')
@@ -58,7 +80,9 @@ class ModuleRepository
 				'm.*',
 				DB::raw("(" . $module_keys . ") as key_expired_at"),
 				DB::raw("(" . $module_type . ") as module_type"),
-				DB::raw("(" . $purchased_key . ") as purchased_key")
+				DB::raw("(" . $purchased_key . ") as purchased_key"),
+				DB::raw("(" . $name . ") as name"),
+				DB::raw("(" . $description . ") as description")
 			);
 	}
 	
@@ -151,6 +175,25 @@ class ModuleRepository
 
 
 	/**
+	 * Get list of module types localized
+	 *
+	 * @return mixed
+	 */
+	private function parseModuleTypes($module_id)
+	{
+		return DB::table('module_type as mt')
+			->select(
+				'mt.*',
+				'mtl.name'
+			)
+			->join('module_type_language as mtl', 'mtl.module_type_id', '=', 'mt.id')
+			->where('mt.module_id', $module_id)
+			->where('mtl.language_code', $this->language_code)
+			->get();
+	}
+
+
+	/**
 	 * Populate simple module with type (with calculated price)
 	 *
 	 * @return mixed
@@ -160,12 +203,16 @@ class ModuleRepository
 		$module = (array) $module;
 
 		// Get module types (basic, pro...)
-		$module_types = Module::find($module['id'])->types->toArray();
+		// $module_types = Module::find($module['id'])->types->toArray();
+		$module_types = $this->parseModuleTypes($module['id']);
 		$purchased_modules = $this->getPurchasedModules($domain);
 
 		// Set active state to the module type
 		foreach ($module_types as $key => $type)
 		{
+			// Cast module type to be array (instead of object std class)
+			$module_types[$key] = (array) $type;
+
 			// Set active module type if purchased
 			if (isset($module['module_type']) AND $module['module_type'] == $type['id'])
 			{
@@ -266,6 +313,17 @@ class ModuleRepository
 	{
 		$module = Module::whereCode($module_code)->first();
 		$module->increment('downloads');
+	}
+
+
+	/**
+	 * Set repository language
+	 *
+	 * @return void
+	 */
+	public function setLanguage($language_code)
+	{
+		$this->language_code = $language_code;
 	}
 
 

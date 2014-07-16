@@ -26,6 +26,8 @@ class ModulesController extends BaseController {
 	 */
 	public function index()
 	{
+		$this->repo->setLanguage(Input::get('language_code', 'en'));
+
 		// Parse domain
 		$domain = $this->parseDomain();
 
@@ -47,6 +49,8 @@ class ModulesController extends BaseController {
 	 */
 	public function get()
 	{
+		$this->repo->setLanguage(Input::get('language_code', 'en'));
+
 		// Parse user needle data
 		$domain = Input::get('domain', '');
 		$module_code = Input::get('module_code', '');
@@ -112,6 +116,8 @@ class ModulesController extends BaseController {
 	 */
 	public function show($module_code)
 	{
+		$this->repo->setLanguage(Input::get('language_code', 'en'));
+
 		$formater = new ModuleFormFormater;
 
 		$domain = $this->parseDomain();

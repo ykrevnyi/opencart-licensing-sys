@@ -14,6 +14,7 @@ class ModuleListFormater implements ModuleFormaterInterface
 	{
 	    return array(
 			"id" 			=> $module->id,
+			"version"		=> $module->version,
 	    	"image" 		=> 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png',
 			"title" 		=> $module->name,
 			"description" 	=> $module->description,

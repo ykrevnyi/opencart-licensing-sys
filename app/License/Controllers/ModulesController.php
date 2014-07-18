@@ -4,6 +4,7 @@
 use License\Repositories\ModuleRepository;
 use License\Output\ModuleFormFormater;
 use License\Models\Module;
+use Response;
 use Input;
 use View;
 
@@ -30,11 +31,10 @@ class ModulesController extends BaseController {
 
 		// Parse domain
 		$domain = $this->parseDomain();
-
 		$modules = $this->repo->all($domain);
-		$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
-
-		return $callback . '(' . json_encode($modules) . ')';
+		
+		return Response::json($modules)
+			->setCallback(Input::get('callback'));
 	}
 
 

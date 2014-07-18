@@ -9,7 +9,8 @@ class Key extends \Eloquent
 		'module_type',
 		'transaction_id',
 		'active',
-		'expired_at'
+		'expired_at',
+		'create_at'
 	);
 	
 }

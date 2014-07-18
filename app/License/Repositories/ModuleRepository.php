@@ -74,6 +74,16 @@ class ModuleRepository
             LIMIT 1 
 		";
 
+		// Get localized category
+		$category = "
+			SELECT `ml`.`category` 
+            FROM `modules_language` as `ml` 
+            WHERE 
+            	`ml`.`module_id` = `m`.`id` AND 
+            	`ml`.`language_code` = '" . $this->language_code . "' 
+            LIMIT 1 
+		";
+
 		// Fetch modules info
 		return DB::table('modules as m')
 			->select(
@@ -82,7 +92,8 @@ class ModuleRepository
 				DB::raw("(" . $module_type . ") as module_type"),
 				DB::raw("(" . $purchased_key . ") as purchased_key"),
 				DB::raw("(" . $name . ") as name"),
-				DB::raw("(" . $description . ") as description")
+				DB::raw("(" . $description . ") as description"),
+				DB::raw("(" . $category . ") as category")
 			);
 	}
 	
@@ -214,7 +225,7 @@ class ModuleRepository
 			$module_types[$key] = (array) $type;
 
 			// Set active module type if purchased
-			if (isset($module['module_type']) AND $module['module_type'] == $type['id'])
+			if (isset($module['module_type']) AND $module['module_type'] == $type->id)
 			{
 				if ( ! $this->moduleIsPurchased($module['code'], $purchased_modules))
 				{
@@ -225,6 +236,9 @@ class ModuleRepository
 			}
 
 			// Calculate version price
+			$module_types[$key]['real_price'] = $module_types[$key]['price'];
+			$module_types[$key]['real_max_price'] = $module_types[$key]['price'] + $module['price'];
+
 			if ( ! $this->moduleIsPurchased($module['code'], $purchased_modules))
 			{
 				$module_types[$key]['price'] += $module['price'];
@@ -323,6 +337,11 @@ class ModuleRepository
 	 */
 	public function setLanguage($language_code)
 	{
+		if (empty($language_code) OR $language_code != 'ru')
+		{
+			$language_code = 'en';
+		}
+		
 		$this->language_code = $language_code;
 	}
 

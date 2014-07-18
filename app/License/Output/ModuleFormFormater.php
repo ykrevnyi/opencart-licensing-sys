@@ -38,9 +38,28 @@ class ModuleFormFormater implements ModuleFormaterInterface
 
 	    // Check if module was purchased
 	    $module_purchased = empty($module->purchased_key) ? false : true;
+
+	    // Get min price
+	    $min_price = $this->getCheapestModuleType($module->types);
+
+	    // Check if this module has free version
+	    $free_module_types = $this->isFreeModule($module, $days_left);
+	    if ($free_module_types)
+	    {
+	    	// If module is free we will override some params 
+	    	// to fit `purchased` module type
+	    	$module->purchased_key = 'FREE';
+	    	$module->module_type = $module->types[0]['id'];
+	    	$expired_at = '-';
+	    	$days_left = '-';
+	    	$module_purchased = true;
+	    	$free_module_types[0]['active'] = true;
+	    	$module->types = $free_module_types;
+	    }
 	    
 	    return array(
 			"id" 			=> $module->id,
+			"version"		=> $module->version,
 			"purchased_key"	=> $module->purchased_key,
 	    	"image" 		=> 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png',
 			"title" 		=> $module->name,
@@ -48,7 +67,7 @@ class ModuleFormFormater implements ModuleFormaterInterface
 			"downloads" 	=> $module->downloads,
 			"category" 		=> $module->category,
 			"updated_at" 	=> "Updated " . $module->updated_at,
-			"min_price"		=> $this->getCheapestModuleType($module->types),
+			"min_price"		=> $min_price,
 	        "code" 			=> $module->code,
 	        "module_type" 	=> $module->module_type,
 	        "expired_at" 	=> $expired_at,
@@ -78,5 +97,55 @@ class ModuleFormFormater implements ModuleFormaterInterface
 
 		return $min;
 	}
+
+
+	/**
+	 * Check if modules has free versions
+	 *
+	 * @return array|bool
+	 */
+	private function isFreeModule($module, $days_left)
+	{
+	    // Check if our selected module type (with key `active`)
+	    // is the cheapest 
+	    $module_type_is_the_cheapest = true;
+	    $free_module_types = $module->types;
+
+	    foreach ($free_module_types as $key => $type)
+	    {
+	    	if (
+	    		! empty($type['active']) 
+    			AND $key > 0 
+    			AND $module->purchased_key != 'DEMO' 
+    			AND $days_left > 0)
+	    	{
+	    		$module_type_is_the_cheapest = false;
+	    	}
+
+	    	// Here we will remove all the `active` keys
+	    	unset($free_module_types[$key]['active']);
+	    }
+
+	    // Check module type min price
+	    $real_min_price = 99999;
+
+	    foreach ($module->types as $type)
+	    {
+	    	if ($type['real_max_price'] < $real_min_price)
+	    	{
+	    		$real_min_price = $type['real_max_price'];
+	    	}
+	    }
+
+	    // If module type price is 0 AND we have selected cheapest module
+	    // we will return new `module types` array
+	    if ($module_type_is_the_cheapest AND $real_min_price <= 0)
+	    {
+	    	return $free_module_types;
+	    }
+
+	    return false;
+	}
+
 
 }

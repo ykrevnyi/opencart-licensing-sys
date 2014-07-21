@@ -22,6 +22,7 @@ class RegularModuleOutput extends BaseModuleOutput {
 	    $min_price = $this->getCheapestType($module->types);
 
 	    // Update module data 
+	    $module->regular_payment = true;
 	    $module->module_purchased = $module_purchased;
 	    $module->min_price = $min_price;
 	    

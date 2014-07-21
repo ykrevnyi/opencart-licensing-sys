@@ -1,8 +1,10 @@
 <?php namespace License\Controllers;
 
 
-use License\Models\Module;
 use License\Repositories\ModuleRepository;
+use License\Output\ModuleFormFormater;
+use License\Models\Module;
+use Response;
 use Input;
 use View;
 
@@ -14,7 +16,9 @@ class ModulesController extends BaseController {
 
 
 	function __construct() {
-		$this->repo = new ModuleRepository;
+		$domain = $this->parseDomain();
+
+		$this->repo = new ModuleRepository($domain);
 	}
 
 
@@ -27,13 +31,10 @@ class ModulesController extends BaseController {
 	{
 		// Parse domain
 		$domain = $this->parseDomain();
-
 		$modules = $this->repo->all($domain);
-		$modules = $this->repo->getModulesTypes($modules, $domain);
 		
-		$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
-
-		return $callback . '(' . json_encode($modules) . ')';
+		return Response::json($modules)
+			->setCallback(Input::get('callback'));
 	}
 
 
@@ -52,15 +53,25 @@ class ModulesController extends BaseController {
 		$domain = Input::get('domain', '');
 		$module_code = Input::get('module_code', '');
 
-		if (empty($module_code) OR ! count($this->repo->find($module_code, $domain))) {
-			echo "You should specify a module code"; die();
-		}
+		// If module code is `self` -> we just want to perform `self update`
+		// We don't want to store any keys or chek module existence
+		if ($module_code != 'self')
+		{
+			if (empty($module_code) OR ! count($this->repo->find($module_code, $domain)))
+			{
+				echo "You should specify a module code"; die();
+			}
 
-		// Attempt to create key
-		try {
-			$keyauth = new \License\Services\KeyAuth;
-			$keyauth->trial($domain, $module_code);
-		} catch (\License\Exceptions\KeyExiststException $e) {}
+			// Attempt to create key
+			try {
+				$keyauth = new \License\Services\KeyAuth;
+				$keyauth->trial($domain, $module_code);
+			}
+			catch (\License\Exceptions\KeyExiststException $e) {}
+
+			// Increment module download
+			$this->repo->incrementDownload($module_code);
+		}
 
 		// Give module
 		$module_location = $this->repo->getModuleLocation($module_code);
@@ -74,28 +85,6 @@ class ModulesController extends BaseController {
 
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		// 
-	}
-
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-
-	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
@@ -103,47 +92,17 @@ class ModulesController extends BaseController {
 	 */
 	public function show($module_code)
 	{
-		$domain = $this->parseDomain();
-		$module = $this->repo->find($module_code, $domain);
+		$module = $this->repo->find($module_code);
+
+		if (Input::has('jsonp'))
+		{
+			$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
+
+			return $callback . '(' . json_encode($module) . ')';
+		}
 
 		return View::make('modules.show')
-				->with('module', $module);
-	}
-
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+			->with('module', $module);
 	}
 
 

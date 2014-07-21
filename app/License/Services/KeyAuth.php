@@ -14,7 +14,6 @@ class KeyAuth
 	private $generator;
 
 	private $keyRepo;
-	private $modulesRepo;
 
 	public $is_trial = false;
 
@@ -30,7 +29,6 @@ class KeyAuth
 	function __construct() {
 		$this->generator = new KeyAuthGenerator;
 		$this->keyRepo = new KeyRepository;
-		$this->modulesRepo = new ModuleRepository;
 	}
 
 
@@ -60,9 +58,11 @@ class KeyAuth
 	 */
 	public function trial($domain, $module_code)
 	{
+		$moduleType = new ModuleType;
+
 		$this->domain = $domain;
 		$this->module_code = $module_code;
-		$this->module_type = $this->modulesRepo->getBestModuleType($module_code);
+		$this->module_type = $moduleType->best();
 		$this->is_trial = true;
 		$this->key_time = 60*60*24*7;
 

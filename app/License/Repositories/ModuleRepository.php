@@ -2,17 +2,15 @@
 
 
 use License\Exceptions\ModuleNotFoundException;
-use License\Output\ModuleFormaterInterface;
-use License\Output\ModuleListFormater;
-use License\Output\ModuleFormFormater;
+use License\Output\ModuleListOutput;
 use License\Models\Module;
 use DB;
 use View;
 use Input;
 
 use License\Services\ModuleSelector\ModuleSelector;
-use License\Services\ModuleType\Module as ModuleService;
-use License\Services\ModuleType\ModuleList as ModuleServiceList;
+use License\Services\Module\Module as ModuleService;
+use License\Services\Module\ModuleList as ModuleServiceList;
 
 
 
@@ -23,11 +21,10 @@ class ModuleRepository
 	private $language_code = 'en';
 
 
-	function __construct($domain, $language_code) {
+	function __construct($domain)
+	{
 		$this->setLanguage(Input::get('language_code', 'en'));
-
 		$this->domain = $domain;
-		$this->language_code = $language_code;
 	}
 
 	
@@ -71,61 +68,6 @@ class ModuleRepository
 		throw new ModuleNotFoundException("Module not found", 0, NULL, array(
 			'module_code' => $module_code
 		));
-	}
-
-
-	/**
-	 * Get types of every module.
-	 *
-	 * Also we will set active state to the purchased module
-	 *
-	 * @return mixed
-	 */
-	public function getModulesTypes($modules, $domain)
-	{
-		foreach ($modules as $key => $module)
-		{
-			$modules[$key] = (object) $this->populateModuleWithTypes($module, $domain);
-		}
-
-		return $modules;
-	}
-
-
-	/**
-	 * Get the best tariff type of module
-	 *
-	 * @return mixed
-	 */
-	public function getBestModuleType($module_code)
-	{
-		return DB::table('module_type AS mt')
-			->select('mt.*')
-			->where(
-				'mt.module_id',
-				DB::raw("(SELECT id FROM modules WHERE code = 'menu' LIMIT 1)")
-			)
-			->orderBy('mt.price', 'DESC')
-			->first()
-			->id;
-	}
-
-
-	/**
-	 * Format modules list array
-	 *
-	 * @return mixed
-	 */
-	public function format(ModuleFormaterInterface $formater, $modules)
-	{
-		$result = array();
-
-		foreach ($modules as $module)
-		{
-			$result[] = $formater->format($module);
-		}
-
-		return $result;
 	}
 
 

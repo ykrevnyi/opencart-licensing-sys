@@ -24,10 +24,12 @@ class PayController extends BaseController {
 
 	function __construct()
 	{
+		$params = $this->parseCustomerInfo();
+
 		$this->keyauth = new KeyAuth;
 		$this->interkassa = new Interkassa;
 		$this->keyRepo = new KeyRepository;
-		$this->moduleRepo = new ModuleRepository;
+		$this->moduleRepo = new ModuleRepository($params['domain']);
 		$this->transactionRepo = new TransactionRepository;
 	}
 
@@ -41,7 +43,7 @@ class PayController extends BaseController {
 	{
 		// Parse all the customer params
 		$params = $this->parseCustomerInfo();
-		$module = $this->moduleRepo->find($params['module_code'], $params['domain']);
+		$module = $this->moduleRepo->find($params['module_code']);
 		
 		$this->layout->content = View::make('pay.index')
 			->with('domain', $params['domain'])
@@ -91,10 +93,7 @@ class PayController extends BaseController {
 				Event::fire('email.license.created', array(
 					'key' => $key,
 					'info' => $customerInfo,
-					'module' => $this->moduleRepo->find(
-						$data['ik_pm_no'],
-						$customerInfo['domain']
-					)
+					'module' => $this->moduleRepo->find($data['ik_pm_no'])
 				));
 			}
 		}
@@ -110,7 +109,7 @@ class PayController extends BaseController {
 	 */
 	private function validateModuleTransaction($module_code, $customerInfo, $data)
 	{
-		$module = $this->moduleRepo->find($data['ik_pm_no'], $customerInfo['domain']);
+		$module = $this->moduleRepo->find($data['ik_pm_no']);
 
 		// Get price of needle type
 		$module_real_price = NULL;
@@ -151,7 +150,7 @@ class PayController extends BaseController {
 		$email = Input::get('email', '');
 
 		// Parse module code
-		$module_code = Input::get('module_code', 'undefined');
+		$module_code = Input::get('module_code', '');
 
 		// Parse module type
 		$module_type = Input::get('module_type', '');
@@ -190,7 +189,5 @@ class PayController extends BaseController {
 		
 		throw new \Exception("Cant get domain and email");
 	}
-
-
 
 }

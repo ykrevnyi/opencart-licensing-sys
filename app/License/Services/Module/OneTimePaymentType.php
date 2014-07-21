@@ -1,7 +1,7 @@
-<?php namespace License\Services\ModuleType;
+<?php namespace License\Services\Module;
 
 
-use License\Services\ModuleType\TypeInterface;
+use License\Services\Module\TypeInterface;
 
 
 class OneTimePaymentType implements TypeInterface {

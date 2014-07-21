@@ -1,4 +1,4 @@
-<?php namespace License\Services\ModuleType;
+<?php namespace License\Services\Module;
 
 
 interface TypeInterface {

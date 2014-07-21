@@ -16,11 +16,9 @@ class ModulesController extends BaseController {
 
 
 	function __construct() {
-		// $domain = $this->parseDomain();
-		$domain = 'opencart.dev';
-		$language_code = Input::get('language_code', 'en');
+		$domain = $this->parseDomain();
 
-		$this->repo = new ModuleRepository($domain, $language_code);
+		$this->repo = new ModuleRepository($domain);
 	}
 
 
@@ -87,28 +85,6 @@ class ModulesController extends BaseController {
 
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		// 
-	}
-
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-
-	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
@@ -127,42 +103,6 @@ class ModulesController extends BaseController {
 
 		return View::make('modules.show')
 			->with('module', $module);
-	}
-
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
 	}
 
 

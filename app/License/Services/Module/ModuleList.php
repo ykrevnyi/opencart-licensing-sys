@@ -1,7 +1,8 @@
-<?php namespace License\Services\ModuleType;
+<?php namespace License\Services\Module;
 
 
 use License\Services\ModuleSelector\ModuleSelector;
+use License\Output\ModuleListOutput;
 
 
 class ModuleList 
@@ -30,8 +31,27 @@ class ModuleList
 		$output = new ModuleListOutput;
 
 		$modules = $this->moduleSelector->all();
+		$modules = $this->getModulesTypes($modules);
 
-		return $output->format($this->info);
+		return $output->format($modules);
+	}
+
+
+	/**
+	 * Get types of every module.
+	 *
+	 * Also we will set active state to the purchased module
+	 *
+	 * @return mixed
+	 */
+	private function getModulesTypes($modules)
+	{
+		foreach ($modules as $key => $module)
+		{
+			$modules[$key] = $this->moduleSelector->populateWithTypes($module);
+		}
+
+		return $modules;
 	}
 
 }

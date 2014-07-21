@@ -1,15 +1,16 @@
-<?php namespace License\Services\ModuleType;
+<?php namespace License\Services\Module;
 
 
 use License\Services\ModuleSelector\ModuleSelector;
-use License\Services\ModuleType\TypeInterface;
-use License\Services\ModuleType\ModuleType;
-use License\Services\ModuleType\RegularPaymentType;
-use License\Services\ModuleType\OneTimePaymentType;
+use License\Services\Module\TypeInterface;
+use License\Services\Module\Module;
+use License\Services\Module\RegularPaymentType;
+use License\Services\Module\OneTimePaymentType;
 use License\Output\ModuleOutput;
 use License\Output\FreeModuleOutput;
 use License\Output\RegularModuleOutput;
 use License\Output\FreeRegularModuleOutput;
+use License\Exceptions\ModuleNotFoundException;
 
 
 class Module 
@@ -112,6 +113,15 @@ class Module
 	private function fetch()
 	{
 		$module = $this->moduleSelector->find($this->code);
+
+		// If there are no module found
+		if (empty($module))
+		{
+			throw new ModuleNotFoundException("Module not found", 0, NULL, array(
+				'module_code' => $this->code
+			));
+		}
+
 		$module = $this->moduleSelector->populateWithTypes($module);
 
 		return $module;

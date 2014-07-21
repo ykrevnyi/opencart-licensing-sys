@@ -3,6 +3,7 @@
 use License\Repositories\KeyRepository;
 use License\Handlers\LicenseHandler;
 
+
 // Handlers
 Event::subscribe('License\Handlers\LicenseHandler');
 

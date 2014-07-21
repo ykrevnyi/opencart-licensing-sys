@@ -9,93 +9,23 @@ use License\Models\Module;
 use DB;
 use View;
 
+use License\Services\ModuleSelector\ModuleSelector;
+use License\Services\ModuleType\Module as ModuleService;
+
+
 
 class ModuleRepository 
 {
 
+	private $domain;
 	private $language_code = 'en';
 
 
-	/**
-	 * Base selector of the modules
-	 *
-	 * @return mixed
-	 */
-	private function selectModules($domain)
-	{
-		// Here we are going to get module active keys
-		$module_keys = "
-			SELECT `k`.`expired_at` 
-            FROM `keys` as `k` 
-            WHERE 
-            	`k`.`module_code` = `m`.`code` AND 
-            	`k`.`domain` = '" . $domain . "' 
-            LIMIT 1 
-		";
-
-		// Get module type id
-		$module_type = "
-			SELECT `k`.`module_type` 
-            FROM `keys` as `k` 
-            WHERE 
-            	`k`.`module_code` = `m`.`code` AND 
-            	`k`.`domain` = '" . $domain . "' 
-            LIMIT 1 
-		";
-
-		// Check if module was purchased
-		$purchased_key = "
-			SELECT `k`.`key` 
-            FROM `keys` as `k` 
-            WHERE 
-            	`k`.`module_code` = `m`.`code` AND 
-            	`k`.`domain` = '" . $domain . "' AND 
-            	`k`.`key` != 'DEMO' 
-            LIMIT 1 
-		";
-
-		// Get localized name
-		$name = "
-			SELECT `ml`.`name` 
-            FROM `modules_language` as `ml` 
-            WHERE 
-            	`ml`.`module_id` = `m`.`id` AND 
-            	`ml`.`language_code` = '" . $this->language_code . "' 
-            LIMIT 1 
-		";
-
-		// Get localized description
-		$description = "
-			SELECT `ml`.`description` 
-            FROM `modules_language` as `ml` 
-            WHERE 
-            	`ml`.`module_id` = `m`.`id` AND 
-            	`ml`.`language_code` = '" . $this->language_code . "' 
-            LIMIT 1 
-		";
-
-		// Get localized category
-		$category = "
-			SELECT `ml`.`category` 
-            FROM `modules_language` as `ml` 
-            WHERE 
-            	`ml`.`module_id` = `m`.`id` AND 
-            	`ml`.`language_code` = '" . $this->language_code . "' 
-            LIMIT 1 
-		";
-
-		// Fetch modules info
-		return DB::table('modules as m')
-			->select(
-				'm.*',
-				DB::raw("(" . $module_keys . ") as key_expired_at"),
-				DB::raw("(" . $module_type . ") as module_type"),
-				DB::raw("(" . $purchased_key . ") as purchased_key"),
-				DB::raw("(" . $name . ") as name"),
-				DB::raw("(" . $description . ") as description"),
-				DB::raw("(" . $category . ") as category")
-			);
+	function __construct($domain, $language_code) {
+		$this->domain = $domain;
+		$this->language_code = $language_code;
 	}
+
 	
 	/**
 	 * Simply get all avalible modules
@@ -112,39 +42,29 @@ class ModuleRepository
 
 
 	/**
-	 * Get module by it's code
-	 *
-	 * @return array
-	 */
-	public function getModule($module_code, $domain)
-	{
-		return (array) $this->selectModules($domain)
-			->where('code', $module_code)
-			->first();
-	}
-
-
-	/**
 	 * Find module by its code with all data (types, selected type)
 	 *
 	 * @return mixed
 	 */
-	public function find($module_code, $domain)
+	public function find($module_code)
 	{
-		// Get module id in order to use build in relations in framework
-		$module = $this->getModule($module_code, $domain);
+		$module = new ModuleService($module_code, $this->domain, $this->language_code);
 
-		// Ok, we have found some module
-		if ($module)
-		{
-			$module_info = $this->populateModuleWithTypes($module, $domain);
+		$module_info = $module->create();
+		
+		print_r($module_info->info()); die();
 
-			return $module_info;
-		}
+		// // Ok, we have found some module
+		// if ($module)
+		// {
+		// 	$module_info = $this->populateModuleWithTypes($module, $domain);
 
-		throw new ModuleNotFoundException("Module not found", 0, NULL, array(
-			'module_code' => $module_code
-		));
+		// 	return $module_info;
+		// }
+
+		// throw new ModuleNotFoundException("Module not found", 0, NULL, array(
+		// 	'module_code' => $module_code
+		// ));
 	}
 
 
@@ -182,108 +102,6 @@ class ModuleRepository
 			->orderBy('mt.price', 'DESC')
 			->first()
 			->id;
-	}
-
-
-	/**
-	 * Get list of module types localized
-	 *
-	 * @return mixed
-	 */
-	private function parseModuleTypes($module_id)
-	{
-		return DB::table('module_type as mt')
-			->select(
-				'mt.*',
-				'mtl.name'
-			)
-			->join('module_type_language as mtl', 'mtl.module_type_id', '=', 'mt.id')
-			->where('mt.module_id', $module_id)
-			->where('mtl.language_code', $this->language_code)
-			->get();
-	}
-
-
-	/**
-	 * Populate simple module with type (with calculated price)
-	 *
-	 * @return mixed
-	 */
-	private function populateModuleWithTypes($module, $domain)
-	{
-		$module = (array) $module;
-
-		// Get module types (basic, pro...)
-		// $module_types = Module::find($module['id'])->types->toArray();
-		$module_types = $this->parseModuleTypes($module['id']);
-		$purchased_modules = $this->getPurchasedModules($domain);
-
-		// Set active state to the module type
-		foreach ($module_types as $key => $type)
-		{
-			// Cast module type to be array (instead of object std class)
-			$module_types[$key] = (array) $type;
-
-			// Set active module type if purchased
-			if (isset($module['module_type']) AND $module['module_type'] == $type->id)
-			{
-				if ( ! $this->moduleIsPurchased($module['code'], $purchased_modules))
-				{
-					$module_types[$key]['is_trial'] = true;
-				}
-				
-				$module_types[$key]['active'] = true;
-			}
-
-			// Calculate version price
-			$module_types[$key]['real_price'] = $module_types[$key]['price'];
-			$module_types[$key]['real_max_price'] = $module_types[$key]['price'] + $module['price'];
-
-			if ( ! $this->moduleIsPurchased($module['code'], $purchased_modules))
-			{
-				$module_types[$key]['price'] += $module['price'];
-			}
-		}
-
-		// Store module types
-		$module['types'] = $module_types;
-
-		return $module;
-	}
-
-
-	/**
-	 * Get list of purchased modules to the domain
-	 *
-	 * @return mixed
-	 */
-	private function getPurchasedModules($domain)
-	{
-		return DB::table('keys as k')
-			->where('domain', $domain)
-			->where('active', 1)
-			->where('key', '!=', 'DEMO')
-			->groupBy('module_code')
-			->lists('module_code');
-	}
-
-
-	/**
-	 * Chekc if module to domain exists
-	 *
-	 * @return bool
-	 */
-	private function moduleIsPurchased($module_code, $purchased_modules)
-	{
-		foreach ($purchased_modules as $code)
-		{
-			if ($code == $module_code)
-			{
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 

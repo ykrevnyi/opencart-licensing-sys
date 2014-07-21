@@ -1,9 +1,8 @@
 <?php namespace License\Output;
 
 
-interface ModuleFormaterInterface 
-{
-	
+interface ModuleOutputInterface {
+
 	public function format($module);
-	
+
 }

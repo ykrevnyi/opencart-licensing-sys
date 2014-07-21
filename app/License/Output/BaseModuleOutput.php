@@ -47,6 +47,7 @@ abstract class BaseModuleOutput implements ModuleOutputInterface {
 	    }
 
 	    // Update module data
+	    $module->image = 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png';
 	    $module->days_left = $days_left;
 	    $module->expired_at = $expired_at;
 

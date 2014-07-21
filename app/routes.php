@@ -23,9 +23,19 @@ Route::get('version', function()
 
 
 // for test only
-Route::get('/', function()
+Route::get('/', function() { return 'home'; });
+Route::post('/', function() { return 'home post'; });
+
+
+// Log an url if route was not found
+App::error(function(Exception $exception, $code)
 {
-	return 'home';
+    if ($exception instanceof Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
+    {
+        Log::error('NotFoundHttpException Route: ' . Request::url() );
+    }
+
+    Log::error($exception);
 });
 
 

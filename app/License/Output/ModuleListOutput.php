@@ -23,7 +23,7 @@ class ModuleListOutput extends BaseModuleOutput {
 
 		    // Update module data 
 		    $module->image = 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png';
-		    $module->module_purchased = $module_purchased;
+		    $module->purchased = $module_purchased;
 		    $module->min_price = $min_price;
 
 		    // Update module in modules list

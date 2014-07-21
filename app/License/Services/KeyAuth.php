@@ -6,6 +6,7 @@ use License\Repositories\ModuleRepository;
 use License\Services\KeyAuthGenerator;
 use License\Exceptions\KeyExiststException;
 use License\Exceptions\KeyShouldHaveTimeException;
+use License\Models\ModuleType;
 
 
 class KeyAuth 
@@ -62,7 +63,7 @@ class KeyAuth
 
 		$this->domain = $domain;
 		$this->module_code = $module_code;
-		$this->module_type = $moduleType->best();
+		$this->module_type = $moduleType->best($module_code);
 		$this->is_trial = true;
 		$this->key_time = 60*60*24*7;
 

@@ -1,6 +1,9 @@
 <?php namespace License\Models;
 
 
+use DB;
+
+
 class ModuleType extends \Eloquent {
 
 	protected $table = 'module_type';

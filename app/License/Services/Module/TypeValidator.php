@@ -40,9 +40,9 @@ class TypeValidator
 
 	    foreach ($this->module->types as $type)
 	    {
-	    	if ($type->real_max_price < $real_min_price)
+	    	if ($type->real_price < $real_min_price)
 	    	{
-	    		$real_min_price = $type->real_max_price;
+	    		$real_min_price = $type->real_price;
 	    	}
 	    }
 

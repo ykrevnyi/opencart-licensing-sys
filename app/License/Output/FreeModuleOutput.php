@@ -24,7 +24,6 @@ class FreeModuleOutput extends BaseModuleOutput {
 	    // Update module data 
 	    $module->image = 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png';
     	$module->regular_payment = false;
-	    $module->module_purchased = $module_purchased;
 	    $module->min_price = $min_price;
 
     	// If module is free we will override some params 
@@ -40,7 +39,7 @@ class FreeModuleOutput extends BaseModuleOutput {
     	$module->module_type = $module->types{0}->id;
     	$module->expired_at = '-';
     	$module->days_left = '-';
-    	$module->module_purchased = true;
+    	$module->purchased = true;
     	$module->types{0}->active = true;
 	    
 	    return $module;

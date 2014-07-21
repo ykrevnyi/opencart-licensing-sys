@@ -4,22 +4,6 @@
 		"selected_items":
 		[
 			[
-				"error",
-				"error_reporting"
-			],
-			[
-				"printr",
-				"print_r"
-			],
-			[
-				"need",
-				"need_errors"
-			],
-			[
-				"expire",
-				"expired_at"
-			],
-			[
 				"Schema",
 				"Schema-table	Schema-table"
 			],
@@ -196,6 +180,10 @@
 				"transaction_purpose"
 			],
 			[
+				"error",
+				"errorContainer"
+			],
+			[
 				"fun",
 				"fun	function …"
 			],
@@ -228,50 +216,34 @@
 	"buffers":
 	[
 		{
-			"file": "app/License/Models/ModuleType.php",
+			"file": "app/License/Output/FreeModuleOutput.php",
 			"settings":
 			{
-				"buffer_size": 460,
+				"buffer_size": 1180,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/License/Controllers/ModulesController.php",
+			"file": "app/License/Output/FreeRegularModuleOutput.php",
 			"settings":
 			{
-				"buffer_size": 3081,
+				"buffer_size": 1189,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/License/Repositories/ModuleRepository.php",
+			"file": "app/License/Output/ModuleListOutput.php",
 			"settings":
 			{
-				"buffer_size": 1968,
+				"buffer_size": 795,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "",
+			"file": "app/License/Output/ModuleOutput.php",
 			"settings":
 			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/License/Models/Module.php",
-			"settings":
-			{
-				"buffer_size": 271,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/routes.php",
-			"settings":
-			{
-				"buffer_size": 1249,
+				"buffer_size": 804,
 				"line_ending": "Unix"
 			}
 		},
@@ -279,7 +251,7 @@
 			"file": "app/License/Output/RegularModuleOutput.php",
 			"settings":
 			{
-				"buffer_size": 754,
+				"buffer_size": 747,
 				"line_ending": "Unix"
 			}
 		}
@@ -295,7 +267,7 @@
 				"Project: Refresh Folders"
 			],
 			[
-				"refresh folders",
+				"ref",
 				"Project: Refresh Folders"
 			],
 			[
@@ -321,10 +293,6 @@
 			[
 				"close",
 				"Project: Close"
-			],
-			[
-				"ref",
-				"Project: Refresh Folders"
 			],
 			[
 				"resh",
@@ -371,134 +339,134 @@
 	},
 	"file_history":
 	[
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/laravel.log",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Services/ModuleSelector/Selector.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/predis/predis/lib/Predis/ServerException.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/success.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Services/Module/TypeValidator.php",
 		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/routes.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/routing/Symfony/Component/Routing/Tests/RouteTest.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Output/BaseModuleOutput.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Output/FreeModuleOutput.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Output/FreeRegularModuleOutput.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Output/ModuleListOutput.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Output/ModuleOutput.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Output/RegularModuleOutput.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Output/ModuleListFormater.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/bootstrap/start.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/nesbot/carbon/tests/SubTest.php",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/.settings.php",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/dbconn.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/welcome/js/modernizr.custom.js",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Controllers/ModulesController.php",
 		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Repositories/ModuleRepository.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Models/Module.php",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/database.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/config/database.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Services/KeyAuth.php",
 		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Repositories/KeyRepository.php",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/routes.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/config/app.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/config/local/app.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt/lib/grunt/config.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/CONTRIBUTING.md",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/composer.json",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/server.php",
-		"/Users/yuriikrevnyi/sites/license.dev/www/admin/config.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt/lib/grunt/option.js",
-		"/Users/yuriikrevnyi/sites/license.dev/www/config.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/src/Illuminate/Foundation/ConfigPublisher.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/vendor/illuminate/database/Illuminate/Database/Connectors/ConnectionFactory.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/vendor/illuminate/database/Illuminate/Database/Connection.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/vendor/illuminate/database/Illuminate/Database/ConnectionInterface.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_095011_create_transactions_table.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_094622_add_unique_index_to_modules_code_field.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_094413_create_modules_table.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/.gitkeep",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/security-core/Symfony/Component/Security/Core/Authorization/AccessDecisionManagerInterface.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/security-core/Symfony/Component/Security/Core/Authorization/AccessDecisionManager.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/nikic/php-parser/test/code/parser/expr/arrayDef.test",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/app/get_module.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/app/module_list.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/tests/KeyRepositoryTest.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Output/ModuleOutput.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Output/ModuleFormFormater.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/vendor/illuminate/database/Illuminate/Database/Console/Migrations/RefreshCommand.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/public/bower_components/bootstrap/less/mixins/reset-filter.less",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/public/bower_components/bootstrap/less/responsive-embed.less",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_120956_add_foreign_keys_to_keys_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_28_141426_remove_unique_index_from_keys_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_112451_create_keys_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/predis/predis/lib/Predis/Command/SetRemove.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/config/remote.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/test/browser/runner-errors-options.js",
 		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/src/Illuminate/Support/helpers.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Models/Key.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/src/Illuminate/Exception/Handler.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/.gitattributes",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/licence-laravel.sublime-project",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/test/css/debug/linenumbers-all.css",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/app/models/Key.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/public/index.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/app/keyauth.class.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/process/Symfony/Component/Process/Exception/ProcessTimedOutException.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-include-bootstrap/less/tooltip.less",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/app/models/Transaction.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/filp/whoops/tests/Whoops/RunTest.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-include-bootstrap/less/responsive-utilities.less",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/finder/Symfony/Component/Finder/Iterator/FilterIterator.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/finder/Symfony/Component/Finder/Tests/Iterator/RealIteratorTestCase.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt/node_modules/findup-sync/node_modules/glob/test/readme-issue.js",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/app/scripts/main.js",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/app/scripts/fastclick.example.js",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/predis/predis/lib/Predis/Command/KeyExists.php",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/app/scripts/app.js",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/app/index.html",
 		"/Applications/XAMPP/xamppfiles/etc/extra/httpd-vhosts.conf",
 		"/etc/hosts",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/helpers.php",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/index 2.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Controllers/ModulesController.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/views/modules/show.blade.php",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/index.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/predis/predis/lib/Predis/Option/CustomOption.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/views/common/module-not-found-exception.blade.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/views/common/key-exists-exception.blade.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/views/common/key-should-have-time-exception.blade.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Exceptions/ModuleNotFoundException.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Models/Key.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/http-kernel/Symfony/Component/HttpKernel/Event/FilterControllerEvent.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/http-kernel/Symfony/Component/HttpKernel/Controller/TraceableControllerResolver.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/http-kernel/Symfony/Component/HttpKernel/Controller/ControllerReference.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/src/Illuminate/Foundation/Console/KeyGenerateCommand.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/swiftmailer/swiftmailer/lib/classes/Swift/KeyCache.php",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/ModulesController.php",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/.htaccess",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Services/KeyAuthGenerator.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Services/KeyAuth.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Models/ModuleType.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/app/module_list.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/app/get_module.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/vendor/illuminate/database/Illuminate/Database/Eloquent/Builder.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.1.0.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/vendor/illuminate/database/Illuminate/Database/Eloquent/Model.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/vendor/illuminate/database/Illuminate/Database/Eloquent/Relations/HasOne.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Relations/HasOne.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/src/Illuminate/Console/Command.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-include-bootstrap/node_modules/grunt-contrib-less/node_modules/less/lib/less/parser.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/maxmin/node_modules/gzip-size/node_modules/zlib-browserify/node_modules/tape/lib/test.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/test/browser/less.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/lib/less/parser.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-rhino-1.7.0.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-rhino-1.6.3.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-rhino-1.6.2.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-rhino-1.5.1.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-rhino-1.4.0.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-rhino-1.3.3.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-rhino-1.3.2.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-rhino-1.3.1.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-rhino-1.1.5.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-rhino-1.1.3.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.7.0.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.6.3.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.6.2.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.6.1.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.6.0.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.5.1.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.5.0.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.4.2.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.4.1.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.4.0.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.4.0-beta.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.3.3.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.3.2.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.3.1.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.3.0.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.2.2.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.2.1.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.2.0.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.1.6.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.1.5.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.1.4.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.1.3.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.1.2.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/dist/less-1.1.1.js",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/src/Illuminate/Auth/EloquentUserProvider.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/monolog/monolog/src/Monolog/Handler/ErrorLogHandler.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/src/Illuminate/Config/FileLoader.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/http-kernel/Symfony/Component/HttpKernel/EventListener/EsiListener.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/tests/ExampleTest.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/app/models/Module.php",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/app/styles/main.css",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/app/scripts/holder.js",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/app/scripts/fastclick.js",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/app/scripts/application.js",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/test/index.html",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/test/spec/test.js",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/test/bower.json",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/Gruntfile.js",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/package.json",
+		"/Users/yuriikrevnyi/sites/demo-markup.dev/bower.json",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Models/Module.php",
+		"/Users/yuriikrevnyi/sites/teil-crm.dev/www/app/CRM/Api/ApiUserRoleController.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_130908_add_active_field_to_modules_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/http-kernel/Symfony/Component/HttpKernel/DependencyInjection/AddClassesToCachePass.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/seeds/DatabaseSeeder.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_112146_add_foreign_key_to_module_type_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/filp/whoops/docs/API Documentation.md",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/config/app.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Repository/ModuleRepository.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Models/Transaction.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/composer.json",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/config/database.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/composer/autoload_psr4.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/artisan",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/vendor/illuminate/database/Illuminate/Database/PostgresConnection.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/commands/.gitkeep",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/controllers/ModulesController.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_094413_create_modules_table.php",
 		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/translation/Symfony/Component/Translation/Catalogue/MergeOperation.php",
 		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/config/mail.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/.git/config",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/.htaccess 2",
-		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/.htaccess 3",
-		"/Users/yuriikrevnyi/sites/teil-crm.dev/www/.git/config",
-		"/Users/yuriikrevnyi/sites/curl-loader.dev/www/.git/config",
-		"/Users/yuriikrevnyi/sites/crm.dev/www/.git/config",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Exceptions/KeyShouldHaveTimeException.php",
-		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/License/Exceptions/KeyExiststException.php"
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/node_modules/grunt-contrib-less/node_modules/less/test/browser/runner-browser-options.js",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/readme.md",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/Module.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_095646_create_module_type_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/Gruntfile.js",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/package.json",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/swiftmailer/swiftmailer/create_pear_package.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/predis/predis/bin/create-pear",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/phpseclib/phpseclib/build/code-sniffer-ruleset.xml",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/http-kernel/Symfony/Component/HttpKernel/DependencyInjection/ContainerAwareHttpKernel.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/predis/predis/lib/Predis/Command/KeyRandom.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/predis/predis/lib/Predis/Command/KeyRename.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/http-kernel/Symfony/Component/HttpKernel/EventListener/AddRequestFormatsListener.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_111348_add_module_id_column_to_module_type_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_111255_drop_module_id_column_from_module_type_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_095428_add_timestamps_to_modules_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/routing/Symfony/Component/Routing/Matcher/Dumper/DumperRoute.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/symfony/finder/Symfony/Component/Finder/Iterator/DateRangeFilterIterator.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/swiftmailer/swiftmailer/lib/classes/Swift/Plugins/DecoratorPlugin.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_110952_change_type_of_module_id_column_from_module_type_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/swiftmailer/swiftmailer/tests/unit/Swift/Events/TransportChangeEventTest.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/swiftmailer/swiftmailer/CHANGES",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/monolog/monolog/src/Monolog/Handler/CubeHandler.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/__OLD/heytested.txt",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_094622_add_unique_index_to_modules_code_field.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_110300_add_foreign_key_to_module_type_table.php",
+		"/Users/yuriikrevnyi/sites/teil-crm.dev/www/app/models/Tools.php",
+		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/Tools.php",
+		"/Users/yuriikrevnyi/sites/teil-crm.dev/www/composer.json",
+		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/database.php",
+		"/private/var/folders/q5/7vrg4nsn4qx0hz52vpy0h9gc0000gn/T/fz3temp-1/app.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_095011_create_transactions_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/nesbot/carbon/tests/CreateFromDateTest.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/predis/predis/bin/create-command-test",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/nesbot/carbon/tests/AddTest.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/swiftmailer/swiftmailer/lib/classes/Swift/FailoverTransport.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/laravel/framework/src/Illuminate/Queue/Console/RetryCommand.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/nesbot/carbon/tests/CreateTest.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/filp/whoops/tests/deprecated/Zend/ModuleTest.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_14_093700_CreateModulesTable.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_09_103141_create_keys_table.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/app/database/migrations/2014_06_09_103001_CreateKeysTable.php",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/vendor/predis/predis/bin/create-single-file",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/.htaccess",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/public/.htaccess",
+		"/Users/yuriikrevnyi/sites/licence-laravel.dev/.gitattributes",
+		"/Users/yuriikrevnyi/Desktop/it_helpdesk_5394330bc4ebc/models/TicketCommentAttachments.php",
+		"/Users/yuriikrevnyi/Desktop/it_helpdesk_5394330bc4ebc/models/User.php",
+		"/Users/yuriikrevnyi/Desktop/it_helpdesk_5394330bc4ebc/models/LocationGroup.php",
+		"/Users/yuriikrevnyi/Desktop/it_helpdesk_5394330bc4ebc/models/Location.php",
+		"/Users/yuriikrevnyi/sites/license.dev/www/vqmod/mods.cache"
 	],
 	"find":
 	{
@@ -509,6 +477,7 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"",
 			"/Users/yuriikrevnyi/sites/license.dev",
 			"/Users/yuriikrevnyi/sites/teil-crm.dev/www/app"
 		]
@@ -518,70 +487,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"NotFoundHttpException Route",
-			"Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
-			"NotFoundHttpException Route",
-			"[2014-07-21",
-			"purchased_modules",
-			"purchasedModules",
-			"fals",
-			"C:/xampp/htdocs/opencart.dev/www",
-			"opencart",
-			"demo-markup",
-			"[]",
-			"module",
-			"common",
-			"not-",
-			"throw",
-			"ModuleNotFoundException",
-			"throw",
-			"exce",
-			"excep",
-			"module_id",
-			"hasone",
-			"->",
-			"keyauth",
-			"*\n",
-			"KeyExiststException",
-			"module_code",
-			"$this->params",
-			"_field",
-			"key_time",
-			"expired",
-			"key_time",
-			"key_store",
-			"key_unique",
-			"key_temp",
-			"mode",
-			"need_demo_key",
-			"key_temp",
-			"key_unique",
-			"$this",
-			"num_range_high",
-			"key_div",
-			"key_split",
-			"key_post",
-			"key_pre",
-			"key_part",
-			"this",
-			"DEMO_KEY",
-			"generate(",
-			"generate",
-			"Generate",
-			"generate",
-			"transaction_id",
-			"$",
-			"new_key",
-			"key_to_module_exists",
-			"generate_key",
-			"store_key",
-			"key_to_module_exists",
-			"check(",
-			"check",
-			"clean",
-			"trige",
-			"nullable",
-			"transaction_id",
+			"real_max_price",
+			"max",
+			"total",
+			"real_max_price",
+			"purchased",
 			"module_code",
 			"$",
 			", ",
@@ -645,7 +555,66 @@
 			"pro",
 			"data",
 			"general",
-			"tabs"
+			"tabs",
+			"boots",
+			"install",
+			"opencart",
+			"C:/xampp/htdocs/opencart.dev",
+			"$",
+			"glyphicon glyphicon-usd ",
+			"feed",
+			"glyphicon glyphicon-usd ",
+			"fee",
+			"$",
+			"transa",
+			"$",
+			"}}</",
+			"$",
+			"name",
+			"price",
+			"unit",
+			"price",
+			"name",
+			"account",
+			"exchange",
+			"currency.",
+			"exchange",
+			"currency.",
+			"exchange",
+			"currency.",
+			"exchange",
+			"exchanges",
+			"currency_rates",
+			"exchange",
+			"exchanges",
+			"exchange",
+			"Currencies",
+			"ExchangeRate",
+			"ExchangeController",
+			"exchage",
+			"exhange_rates",
+			"priority",
+			"exchange",
+			"priority",
+			"Цвет",
+			"приоритет",
+			"priorities",
+			"color",
+			"Цвет",
+			"priorities",
+			"priority",
+			"color",
+			"priority",
+			"priorities",
+			"color",
+			"priority",
+			"priorities",
+			"priorities.",
+			"ProjectPriority",
+			"PrioritiesController",
+			"utf16",
+			"/Stripe",
+			"/stripe"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -663,62 +632,60 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 4,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/License/Models/ModuleType.php",
+					"file": "app/License/Output/FreeModuleOutput.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 460,
+						"buffer_size": 1180,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								732,
+								734
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 172.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "app/License/Controllers/ModulesController.php",
+					"file": "app/License/Output/FreeRegularModuleOutput.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3081,
+						"buffer_size": 1189,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1108,
+								1108
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 219.0,
+						"translation.y": 187.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
@@ -726,88 +693,25 @@
 				},
 				{
 					"buffer": 2,
-					"file": "app/License/Repositories/ModuleRepository.php",
+					"file": "app/License/Output/ModuleListOutput.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1968,
+						"buffer_size": 795,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								624,
+								624
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 968.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 3,
-			"sheets":
-			[
-				{
-					"buffer": 4,
-					"file": "app/License/Models/Module.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 271,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"history_list_is_closing": true,
-							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -817,20 +721,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "app/License/Repositories/ModuleRepository.php",
+					"buffer": 3,
+					"file": "app/License/Output/ModuleOutput.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1968,
+						"buffer_size": 804,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1,
-								1
+								648,
+								648
 							]
 						],
 						"settings":
@@ -846,48 +750,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "app/routes.php",
+					"buffer": 4,
+					"file": "app/License/Output/RegularModuleOutput.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1249,
+						"buffer_size": 747,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								651,
-								651
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/License/Output/RegularModuleOutput.php",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 754,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
+								654,
+								654
 							]
 						],
 						"settings":
@@ -922,18 +798,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.385799153646,
 			1.0
 		],
 		"rows":
@@ -959,92 +828,12 @@
 		"selected_items":
 		[
 			[
-				"routes",
-				"app/routes.php"
+				"selector",
+				"app/License/Services/ModuleSelector/Selector.php"
 			],
 			[
-				"modrepo",
-				"app/License/Repositories/ModuleRepository.php"
-			],
-			[
-				"start",
-				"bootstrap/start.php"
-			],
-			[
-				"modulecon",
-				"app/License/Controllers/ModulesController.php"
-			],
-			[
-				"config/datab",
-				"app/config/database.php"
-			],
-			[
-				"ndor/laravel/framework/src/illuminate/support/helpers.ph",
-				"vendor/laravel/framework/src/Illuminate/Support/helpers.php"
-			],
-			[
-				"composer",
-				"composer.json"
-			],
-			[
-				"vendor/laravel/framework/src/illuminate/support/helpers.p",
-				"vendor/laravel/framework/src/Illuminate/Support/helpers.php"
-			],
-			[
-				"modulenotfoundexception",
-				"app/License/Exceptions/ModuleNotFoundException.php"
-			],
-			[
-				"keyrepo",
-				"app/License/Repositories/KeyRepository.php"
-			],
-			[
-				"module",
-				"app/License/Models/Module.php"
-			],
-			[
-				"moduletype",
-				"app/License/Models/ModuleType.php"
-			],
-			[
-				"modulerepository",
-				"app/License/Repositories/ModuleRepository.php"
-			],
-			[
-				"modulescon",
-				"app/License/Controllers/ModulesController.php"
-			],
-			[
-				"modtype",
-				"app/License/Models/ModuleType.php"
-			],
-			[
-				"route",
-				"app/routes.php"
-			],
-			[
-				"keyshouldhavetimeexception",
-				"app/views/common/key-should-have-time-exception.blade.php"
-			],
-			[
-				"keex",
-				"app/views/common/key-exists-exception.blade.php"
-			],
-			[
-				"baseex",
-				"app/License/Exceptions/BaseException.php"
-			],
-			[
-				"createkeystable",
-				"app/database/migrations/2014_06_14_112451_create_keys_table.php"
-			],
-			[
-				"createkesa",
-				"app/database/migrations/2014_06_14_112451_create_keys_table.php"
-			],
-			[
-				"settranullable",
-				"app/database/migrations/2014_06_28_144544_set_transation_id_to_be_nullable_table_keys.php"
+				"refre",
+				"__OLD/vendor/illuminate/database/Illuminate/Database/Console/Migrations/RefreshCommand.php"
 			],
 			[
 				"removeuni",
@@ -1059,6 +848,10 @@
 				"vendor/laravel/framework/src/Illuminate/Support/helpers.php"
 			],
 			[
+				"routes",
+				"app/routes.php"
+			],
+			[
 				"keyauth",
 				"__OLD/app/keyauth.class.php"
 			],
@@ -1067,12 +860,24 @@
 				"app/database/migrations/2014_06_14_130908_add_active_field_to_modules_table.php"
 			],
 			[
+				"composer",
+				"composer.json"
+			],
+			[
 				"app/con/app",
 				"app/config/app.php"
 			],
 			[
 				"app/con/data",
 				"app/config/database.php"
+			],
+			[
+				"modulescon",
+				"app/controllers/ModulesController.php"
+			],
+			[
+				"createkeystable",
+				"app/database/migrations/2014_06_14_112451_create_keys_table.php"
 			],
 			[
 				"addforein",
@@ -1469,6 +1274,70 @@
 			[
 				"acccon",
 				"www/app/controllers/AccountsController.php"
+			],
+			[
+				"redmien",
+				"www/app/models/RedmineUser.php"
+			],
+			[
+				"proconr",
+				"www/app/controllers/ProjectsController.php"
+			],
+			[
+				"taskconr",
+				"www/app/controllers/TasksController.php"
+			],
+			[
+				"tas/crea",
+				"www/app/views/tasks/create.blade.php"
+			],
+			[
+				"date",
+				"www/public/js/daterangepicker.js"
+			],
+			[
+				"dater",
+				"www/vendor/symfony/finder/Symfony/Component/Finder/Iterator/DateRangeFilterIterator.php"
+			],
+			[
+				"pro/create",
+				"www/app/views/projects/create.blade.php"
+			],
+			[
+				"proej/index",
+				"www/app/views/projects/index.blade.php"
+			],
+			[
+				"moment",
+				"www/public/js/moment.js"
+			],
+			[
+				"tools",
+				"www/app/models/Tools.php"
+			],
+			[
+				"ad/headr",
+				"www/app/views/admin/common/header.blade.php"
+			],
+			[
+				"ad/home",
+				"www/app/views/admin/common/home.blade.php"
+			],
+			[
+				"admin/headr",
+				"www/app/views/admin/common/header.blade.php"
+			],
+			[
+				"proj/edi",
+				"www/app/views/projects/edit.blade.php"
+			],
+			[
+				"proj/form",
+				"www/app/views/projects/form_to_add_users.blade.php"
+			],
+			[
+				"pro/user",
+				"www/app/views/projects/user_to_project_form.blade.php"
 			]
 		],
 		"width": 0.0
@@ -1483,12 +1352,8 @@
 				"~/sites/license.dev/www/license.sublime-project"
 			],
 			[
-				"lic",
-				"~/sites/license.dev/www/license.sublime-project"
-			],
-			[
-				"licese",
-				"~/sites/license.dev/www/license.sublime-project"
+				"licnce",
+				"~/sites/licence-laravel.dev/licence-laravel.sublime-project"
 			],
 			[
 				"te",
@@ -1499,11 +1364,11 @@
 	},
 	"select_symbol":
 	{
-		"height": 207.0,
+		"height": 0.0,
 		"selected_items":
 		[
 		],
-		"width": 642.0
+		"width": 0.0
 	},
 	"settings":
 	{
@@ -1513,12 +1378,6 @@
 				0,
 				0,
 				1,
-				1
-			],
-			[
-				1,
-				0,
-				2,
 				1
 			]
 		]

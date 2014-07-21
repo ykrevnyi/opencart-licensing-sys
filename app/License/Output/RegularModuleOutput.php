@@ -4,7 +4,7 @@
 use License\Output\BaseModuleOutput;
 
 
-class ModuleOutput extends BaseModuleOutput {
+class RegularModuleOutput extends BaseModuleOutput {
 
 	/**
 	 * Simple format function
@@ -24,8 +24,6 @@ class ModuleOutput extends BaseModuleOutput {
 	    // Update module data 
 	    $module->module_purchased = $module_purchased;
 	    $module->min_price = $min_price;
-	    $module->days_left = '-';
-	    $module->expired_at = '-';
 	    
 	    return $module;
 	}

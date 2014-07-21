@@ -7,6 +7,9 @@ use License\Services\ModuleType\ModuleType;
 use License\Services\ModuleType\RegularPaymentType;
 use License\Services\ModuleType\OneTimePaymentType;
 use License\Output\ModuleOutput;
+use License\Output\FreeModuleOutput;
+use License\Output\RegularModuleOutput;
+use License\Output\FreeRegularModuleOutput;
 
 
 class Module 

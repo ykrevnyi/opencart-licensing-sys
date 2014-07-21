@@ -4,7 +4,7 @@
 use License\Output\BaseModuleOutput;
 
 
-class ModuleOutput extends BaseModuleOutput {
+class FreeRegularModuleOutput extends BaseModuleOutput {
 
 	/**
 	 * Simple format function
@@ -13,6 +13,7 @@ class ModuleOutput extends BaseModuleOutput {
 	 */
 	public function format($module)
 	{
+		
 		$module = $this->timestamps($module);
 
 	    // Check if module was purchased
@@ -24,8 +25,12 @@ class ModuleOutput extends BaseModuleOutput {
 	    // Update module data 
 	    $module->module_purchased = $module_purchased;
 	    $module->min_price = $min_price;
-	    $module->days_left = '-';
-	    $module->expired_at = '-';
+
+	    // Remove all `active` keys from module type
+	    foreach ($module->types as $key => $type)
+	    {
+	    	// unset($module->types[$key]->active);
+	    }
 	    
 	    return $module;
 	}

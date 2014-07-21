@@ -8,9 +8,11 @@ use License\Output\ModuleFormFormater;
 use License\Models\Module;
 use DB;
 use View;
+use Input;
 
 use License\Services\ModuleSelector\ModuleSelector;
 use License\Services\ModuleType\Module as ModuleService;
+use License\Services\ModuleType\ModuleList as ModuleServiceList;
 
 
 
@@ -22,6 +24,8 @@ class ModuleRepository
 
 
 	function __construct($domain, $language_code) {
+		$this->setLanguage(Input::get('language_code', 'en'));
+
 		$this->domain = $domain;
 		$this->language_code = $language_code;
 	}
@@ -32,12 +36,14 @@ class ModuleRepository
 	 *
 	 * @return mixed
 	 */
-	public function all($domain)
+	public function all()
 	{
-		$modules = (array) $this->selectModules($domain)->get();
-		$modules = $this->getModulesTypes($modules, $domain);
+		$module = new ModuleServiceList(
+			$this->domain, 
+			$this->language_code
+		);
 
-		return $this->format(new ModuleListFormater, $modules);
+		return $module->all();
 	}
 
 
@@ -48,23 +54,23 @@ class ModuleRepository
 	 */
 	public function find($module_code)
 	{
-		$module = new ModuleService($module_code, $this->domain, $this->language_code);
+		$module = new ModuleService(
+			$module_code, 
+			$this->domain, 
+			$this->language_code
+		);
 
-		$module_info = $module->create();
+		$module_info = $module->create()->info();
 		
-		print_r($module_info->info()); die();
-
 		// // Ok, we have found some module
-		// if ($module)
-		// {
-		// 	$module_info = $this->populateModuleWithTypes($module, $domain);
+		if ($module_info)
+		{
+			return $module_info;
+		}
 
-		// 	return $module_info;
-		// }
-
-		// throw new ModuleNotFoundException("Module not found", 0, NULL, array(
-		// 	'module_code' => $module_code
-		// ));
+		throw new ModuleNotFoundException("Module not found", 0, NULL, array(
+			'module_code' => $module_code
+		));
 	}
 
 
@@ -153,7 +159,7 @@ class ModuleRepository
 	 *
 	 * @return void
 	 */
-	public function setLanguage($language_code)
+	private function setLanguage($language_code)
 	{
 		if (empty($language_code) OR $language_code != 'ru')
 		{

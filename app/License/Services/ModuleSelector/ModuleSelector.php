@@ -9,6 +9,17 @@ class ModuleSelector extends Selector
 {
 	
 	/**
+	 * Get list of modules
+	 *
+	 * @return mixed
+	 */
+	public function all()
+	{
+		return $this->make()->get();
+	}
+
+
+	/**
 	 * Get module by it's code
 	 *
 	 * @return mixed

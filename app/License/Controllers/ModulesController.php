@@ -31,8 +31,6 @@ class ModulesController extends BaseController {
 	 */
 	public function index()
 	{
-		$this->repo->setLanguage(Input::get('language_code', 'en'));
-
 		// Parse domain
 		$domain = $this->parseDomain();
 		$modules = $this->repo->all($domain);
@@ -53,8 +51,6 @@ class ModulesController extends BaseController {
 	 */
 	public function get()
 	{
-		$this->repo->setLanguage(Input::get('language_code', 'en'));
-
 		// Parse user needle data
 		$domain = Input::get('domain', '');
 		$module_code = Input::get('module_code', '');
@@ -120,25 +116,17 @@ class ModulesController extends BaseController {
 	 */
 	public function show($module_code)
 	{
-
-		// $this->repo->setLanguage(Input::get('language_code', 'en'));
-
-		// $formater = new ModuleFormFormater;
-
 		$module = $this->repo->find($module_code);
-		// $module = $formater->format($module);
 
-		print_r($module); die();
+		if (Input::has('jsonp'))
+		{
+			$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
 
-		// if (Input::has('jsonp'))
-		// {
-		// 	$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
+			return $callback . '(' . json_encode($module) . ')';
+		}
 
-		// 	return $callback . '(' . json_encode($module) . ')';
-		// }
-
-		// return View::make('modules.show')
-		// 		->with('module', $module);
+		return View::make('modules.show')
+			->with('module', $module);
 	}
 
 

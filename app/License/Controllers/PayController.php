@@ -113,11 +113,12 @@ class PayController extends BaseController {
 
 		// Get price of needle type
 		$module_real_price = NULL;
-		foreach ($module['types'] as $type)
+		
+		foreach ($module->types as $type)
 		{
-			if ($type['id'] == $customerInfo['module_type'])
+			if ($type->id == $customerInfo['module_type'])
 			{
-				$module_real_price = $type['price'];
+				$module_real_price = $type->price;
 			}
 		}
 

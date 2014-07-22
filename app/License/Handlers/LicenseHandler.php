@@ -11,10 +11,6 @@ class LicenseHandler {
      */
     public function sendKeyToCustomer($key, $customerInfo, $module)
     {
-        \Log::info($key);
-        \Log::info($customerInfo);
-        \Log::info($module);
-
         $data = array(
             'key' => $key,
             'info' => $customerInfo,

@@ -19,41 +19,15 @@ class TypeValidator
 	 */
 	public function isFree()
 	{
-		// Check if our selected module type (with key `active`)
-	    // is the cheapest 
-	    $module_type_is_the_cheapest = true;
+		foreach ($this->module->types as $key => $type)
+		{
+			if ($key == 0 AND empty($this->module->purchased_key) AND empty($this->module->days_left) AND $type->real_price == 0)
+			{
+				return true;
+			}
+		}
 
-	    foreach ($this->module->types as $key => $type)
-	    {
-	    	if (
-	    		! empty($type->active) 
-    			AND $key > 0 
-    			AND $this->module->purchased_key != 'DEMO' 
-    			AND $this->module->days_left > 0)
-	    	{
-	    		$module_type_is_the_cheapest = false;
-	    	}
-	    }
-
-	    // Check module type min price
-	    $real_min_price = 99999;
-
-	    foreach ($this->module->types as $type)
-	    {
-	    	if ($type->real_price < $real_min_price)
-	    	{
-	    		$real_min_price = $type->real_price;
-	    	}
-	    }
-
-	    // If module type price is 0 AND we have selected cheapest module
-	    // we will return new `module types` array
-	    if ($module_type_is_the_cheapest AND $real_min_price <= 0)
-	    {
-	    	return true;
-	    }
-
-	    return false;
+		return false;
 	}
 
 

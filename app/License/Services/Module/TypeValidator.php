@@ -21,7 +21,7 @@ class TypeValidator
 	{
 		foreach ($this->module->types as $key => $type)
 		{
-			if ($key == 0 AND empty($this->module->purchased_key) AND empty($this->module->days_left) AND $type->real_price == 0)
+			if ($key == 0 AND empty($this->module->days_left) AND $type->real_price == 0 )
 			{
 				return true;
 			}

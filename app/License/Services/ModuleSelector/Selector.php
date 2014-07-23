@@ -38,6 +38,7 @@ class Selector implements SelectorInterface
 				DB::raw("(" . $this->getModuleKeys() . ") as key_expired_at"),
 				DB::raw("(" . $this->getModuleType() . ") as module_type"),
 				DB::raw("(" . $this->getPurchasedKey() . ") as purchased_key"),
+				DB::raw("(" . $this->getInsertedKey() . ") as inserted_key"),
 				DB::raw("(" . $this->getName() . ") as name"),
 				DB::raw("(" . $this->getDescription() . ") as description"),
 				DB::raw("(" . $this->getCategory() . ") as category")
@@ -144,6 +145,20 @@ class Selector implements SelectorInterface
             	`k`.`module_code` = `m`.`code` AND 
             	`k`.`domain` = '" . $this->domain . "' AND 
             	`k`.`key` != 'DEMO' 
+            LIMIT 1 
+		";
+	}
+
+
+	// Get real inserted key
+	private function getInsertedKey()
+	{
+		return "
+			SELECT `k`.`key` 
+            FROM `keys` as `k` 
+            WHERE 
+            	`k`.`module_code` = `m`.`code` AND 
+            	`k`.`domain` = '" . $this->domain . "' 
             LIMIT 1 
 		";
 	}

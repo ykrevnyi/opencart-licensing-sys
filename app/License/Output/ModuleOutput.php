@@ -18,6 +18,12 @@ class ModuleOutput extends BaseModuleOutput {
 	    // Check if module was purchased
 	    $module_purchased = empty($module->purchased_key) ? false : true;
 
+	    if ( ! empty($module->purchased_key))
+	    {
+	    	$module->days_left = '-';
+	    	$module->expired_at = '-';
+	    }
+
 	    // Get min price
 	    $min_price = $this->getCheapestType($module->types);
 
@@ -26,8 +32,6 @@ class ModuleOutput extends BaseModuleOutput {
 	    $module->regular_payment = false;
 	    $module->purchased = $module_purchased;
 	    $module->min_price = $min_price;
-	    $module->days_left = '-';
-	    $module->expired_at = '-';
 	    
 	    return $module;
 	}

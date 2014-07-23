@@ -35,12 +35,16 @@ class FreeModuleOutput extends BaseModuleOutput {
 	    	unset($module->types[$key]->active);
 	    }
 
-    	$module->purchased_key = 'FREE';
-    	$module->module_type = $module->types{0}->id;
-    	$module->expired_at = '-';
-    	$module->days_left = '-';
-    	$module->purchased = true;
-    	$module->types{0}->active = true;
+	    // Check if inserted key is DEMO key
+	    if ($module->inserted_key !='DEMO')
+	    {
+	    	$module->purchased_key = 'FREE';
+	    	$module->module_type = $module->types{0}->id;
+	    	$module->expired_at = '-';
+	    	$module->days_left = '-';
+	    	$module->purchased = true;
+	    	$module->types{0}->active = true;
+	    }
 	    
 	    return $module;
 	}

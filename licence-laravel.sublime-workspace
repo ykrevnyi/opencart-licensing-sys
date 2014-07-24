@@ -171,15 +171,47 @@
 			"file": "app/License/Output/FreeModuleOutput.php",
 			"settings":
 			{
-				"buffer_size": 1283,
+				"buffer_size": 1417,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app/License/Services/Module/Module.php",
+			"file": "app/License/Output/FreeRegularModuleOutput.php",
 			"settings":
 			{
-				"buffer_size": 2466,
+				"buffer_size": 1426,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/License/Output/BaseModuleOutput.php",
+			"settings":
+			{
+				"buffer_size": 1618,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/License/Output/ModuleOutput.php",
+			"settings":
+			{
+				"buffer_size": 956,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/License/Services/Module/TypeValidator.php",
+			"settings":
+			{
+				"buffer_size": 1380,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/License/Output/RegularModuleOutput.php",
+			"settings":
+			{
+				"buffer_size": 839,
 				"line_ending": "Windows"
 			}
 		}
@@ -260,12 +292,18 @@
 	},
 	"file_history":
 	[
-		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Services/ModuleSelector/Selector.php",
+		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Output/BaseModuleOutput.php",
+		"/C/xampp/htdocs/licence-laravel.dev/www/vendor/swiftmailer/swiftmailer/lib/classes/Swift/OutputByteStream.php",
+		"/C/xampp/htdocs/licence-laravel.dev/www/node_modules/grunt-contrib-less/node_modules/less/test/css/no-output.css",
+		"/C/xampp/htdocs/licence-laravel.dev/www/vendor/symfony/console/Symfony/Component/Console/Output/Output.php",
+		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Controllers/ModulesController.php",
+		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Output/RegularModuleOutput.php",
+		"/C/Users/Юрий/Desktop/FileZilla.xml",
 		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Services/Module/Module.php",
+		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Services/ModuleSelector/Selector.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/vendor/predis/predis/lib/Predis/ServerException.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/vendor/symfony/css-selector/Symfony/Component/CssSelector/Exception/SyntaxErrorException.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Output/ModuleOutput.php",
-		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Controllers/ModulesController.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/__OLD/index.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/node_modules/grunt-contrib-less/node_modules/less/test/less/errors/import-no-semi.less",
 		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Repositories/ModuleRepository.php",
@@ -277,10 +315,8 @@
 		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Output/FreeModuleOutput.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Output/FreeRegularModuleOutput.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/vendor/symfony/console/Symfony/Component/Console/Formatter/OutputFormatter.php",
-		"/C/xampp/htdocs/licence-laravel.dev/www/vendor/symfony/console/Symfony/Component/Console/Output/Output.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/public/bower_components/jquery/src/outro.js",
 		"/C/xampp/htdocs/licence-laravel.dev/www/node_modules/grunt/lib/grunt/option.js",
-		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Output/RegularModuleOutput.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/__OLD/success.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/app/License/Services/ModuleSelector/ModuleSelector.php",
 		"/C/xampp/htdocs/licence-laravel.dev/www/vendor/laravel/framework/src/Illuminate/Routing/Matching/MethodValidator.php",
@@ -383,11 +419,7 @@
 		"/Users/yuriikrevnyi/Desktop/it_helpdesk_5394330bc4ebc/models/LocationGroup.php",
 		"/Users/yuriikrevnyi/Desktop/it_helpdesk_5394330bc4ebc/models/Location.php",
 		"/Users/yuriikrevnyi/sites/license.dev/www/admin/controller/extension/module.php",
-		"/Users/yuriikrevnyi/sites/license.dev/www/admin/controller/common/home.php",
-		"/Users/yuriikrevnyi/sites/license.dev/www/admin/config-dist.php",
-		"/Users/yuriikrevnyi/sites/license.dev/www/vqmod/vqcache/vq2-admin_model_catalog_category.php",
-		"/Users/yuriikrevnyi/sites/license.dev/www/admin/view/template/teil/modules/menu.tpl",
-		"/Users/yuriikrevnyi/sites/license.dev/www/admin/view/template/amazon/item_links.tpl"
+		"/Users/yuriikrevnyi/sites/license.dev/www/admin/controller/common/home.php"
 	],
 	"find":
 	{
@@ -409,6 +441,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"days",
+			"present",
+			"is_demo_key",
 			"inser",
 			"Log",
 			"days_left",
@@ -533,10 +568,7 @@
 			"user-project-invoice-action",
 			"invoi",
 			"f9f9f9",
-			".fancybox-skin",
-			"user_persents_price",
-			"perce",
-			"td"
+			".fancybox-skin"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -554,7 +586,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -563,23 +595,24 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1283,
+						"buffer_size": 1417,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1013,
-								1013
+								1186,
+								1186
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.tmLanguage"
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 180.0,
+						"translation.y": 12.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -587,19 +620,106 @@
 				},
 				{
 					"buffer": 1,
-					"file": "app/License/Services/Module/Module.php",
+					"file": "app/License/Output/FreeRegularModuleOutput.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2466,
+						"buffer_size": 1426,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								40,
-								40
+								709,
+								709
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 30.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/License/Output/BaseModuleOutput.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1618,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1229,
+								1229
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 336.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/License/Output/ModuleOutput.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 956,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								873,
+								873
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/License/Services/Module/TypeValidator.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1380,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								484,
+								484
 							]
 						],
 						"settings":
@@ -612,6 +732,35 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/License/Output/RegularModuleOutput.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 839,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								790,
+								790
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -664,6 +813,22 @@
 		"selected_items":
 		[
 			[
+				"typevalida",
+				"app\\License\\Services\\Module\\TypeValidator.php"
+			],
+			[
+				"app/baseoutput",
+				"app\\License\\Output\\BaseModuleOutput.php"
+			],
+			[
+				"modcontroller",
+				"app\\License\\Controllers\\ModulesController.php"
+			],
+			[
+				"modcon",
+				"app\\License\\Controllers\\ModulesController.php"
+			],
+			[
 				"selector",
 				"app\\License\\Services\\ModuleSelector\\Selector.php"
 			],
@@ -677,10 +842,6 @@
 			],
 			[
 				"typevalidator",
-				"app\\License\\Services\\Module\\TypeValidator.php"
-			],
-			[
-				"typevalida",
 				"app\\License\\Services\\Module\\TypeValidator.php"
 			],
 			[
@@ -718,10 +879,6 @@
 			[
 				"modrepo",
 				"app\\License\\Repositories\\ModuleRepository.php"
-			],
-			[
-				"modcon",
-				"app\\License\\Controllers\\ModulesController.php"
 			],
 			[
 				"email/",
@@ -1166,14 +1323,6 @@
 			[
 				"tas/crea",
 				"www/app/views/tasks/create.blade.php"
-			],
-			[
-				"date",
-				"www/public/js/daterangepicker.js"
-			],
-			[
-				"dater",
-				"www/vendor/symfony/finder/Symfony/Component/Finder/Iterator/DateRangeFilterIterator.php"
 			]
 		],
 		"width": 0.0

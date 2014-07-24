@@ -26,6 +26,11 @@ class RegularModuleOutput extends BaseModuleOutput {
 	    $module->regular_payment = true;
 	    $module->purchased = $module_purchased;
 	    $module->min_price = $min_price;
+
+	    if ($module->inserted_key == 'DEMO')
+	    {
+	    	$module->is_demo_key = true;
+	    }
 	    
 	    return $module;
 	}

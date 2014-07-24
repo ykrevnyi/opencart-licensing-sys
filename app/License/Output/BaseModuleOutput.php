@@ -50,6 +50,7 @@ abstract class BaseModuleOutput implements ModuleOutputInterface {
 	    $module->image = 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png';
 	    $module->days_left = $days_left;
 	    $module->expired_at = $expired_at;
+	    $module->key_expired_at_timestamp = strtotime($module->key_expired_at);
 
 	    return $module;
 	}

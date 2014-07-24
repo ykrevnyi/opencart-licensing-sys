@@ -16,7 +16,8 @@ class ModulesController extends BaseController {
 
 
 	function __construct() {
-		$domain = $this->parseDomain();
+		// $domain = $this->parseDomain();
+		$domain = 'opencart.dev';
 
 		$this->repo = new ModuleRepository($domain);
 	}

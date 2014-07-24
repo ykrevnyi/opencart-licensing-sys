@@ -25,6 +25,7 @@ class FreeModuleOutput extends BaseModuleOutput {
 	    $module->image = 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png';
     	$module->regular_payment = false;
 	    $module->min_price = $min_price;
+	    $module->is_demo_key = true;
 
     	// If module is free we will override some params 
     	// to fit `purchased` module type
@@ -36,8 +37,9 @@ class FreeModuleOutput extends BaseModuleOutput {
 	    }
 
 	    // Check if inserted key is DEMO key
-	    if ($module->inserted_key !='DEMO')
+	    if ($module->inserted_key != 'DEMO' OR $module->inserted_key == 'DEMO' AND $module->days_left <= 0)
 	    {
+	    	$module->is_demo_key = false;
 	    	$module->purchased_key = 'FREE';
 	    	$module->module_type = $module->types{0}->id;
 	    	$module->expired_at = '-';

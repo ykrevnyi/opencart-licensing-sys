@@ -1,19 +1,25 @@
 <?php namespace License\Controllers;
 
 
-use License\Models\Module;
 use License\Repositories\ModuleRepository;
+use License\Output\ModuleFormFormater;
+use License\Models\Module;
+use Response;
 use Input;
+use View;
 
 
-class ModulesController extends \BaseController {
+class ModulesController extends BaseController {
 
 
 	private $repo;
 
 
 	function __construct() {
-		$this->repo = new ModuleRepository;
+		// $domain = $this->parseDomain();
+		$domain = 'opencart.dev';
+
+		$this->repo = new ModuleRepository($domain);
 	}
 
 
@@ -24,11 +30,12 @@ class ModulesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$modules = $this->repo->all();
-		$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
-
-		// print_r($modules); die();
-		return $callback . '(' . json_encode($modules) . ')';
+		// Parse domain
+		$domain = $this->parseDomain();
+		$modules = $this->repo->all($domain);
+		
+		return Response::json($modules)
+			->setCallback(Input::get('callback'));
 	}
 
 
@@ -44,14 +51,28 @@ class ModulesController extends \BaseController {
 	public function get()
 	{
 		// Parse user needle data
-		$domain = Input::get('domain', 'test.test');
-		$module_code = Input::get('module_code', 'menu');
+		$domain = Input::get('domain', '');
+		$module_code = Input::get('module_code', '');
 
-		// Attempt to create key
-		try {
-			$keyauth = new \License\Services\KeyAuth;
-			$keyauth->trial($domain, $module_code);
-		} catch (\License\Exceptions\KeyExiststException $e) {}
+		// If module code is `self` -> we just want to perform `self update`
+		// We don't want to store any keys or chek module existence
+		if ($module_code != 'self')
+		{
+			if (empty($module_code) OR ! count($this->repo->find($module_code, $domain)))
+			{
+				echo "You should specify a module code"; die();
+			}
+
+			// Attempt to create key
+			try {
+				$keyauth = new \License\Services\KeyAuth;
+				$keyauth->trial($domain, $module_code);
+			}
+			catch (\License\Exceptions\KeyExiststException $e) {}
+
+			// Increment module download
+			$this->repo->incrementDownload($module_code);
+		}
 
 		// Give module
 		$module_location = $this->repo->getModuleLocation($module_code);
@@ -65,45 +86,6 @@ class ModulesController extends \BaseController {
 
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		// $keyauth = new \License\Services\KeyAuth;
-
-		// // Parse user needle data
-		// $domain = Input::get('domain', 'test.test');
-		// $module_code = Input::get('module_code', 'menu');
-
-		// // Create key
-		// $keyauth->domain = $domain;
-		// $keyauth->module_code = $module_code;
-		// $keyauth->is_trial = true;
-		// $keyauth->key_time = 60*60*24*7;
-		
-		// try {
-		// 	$keyauth->make();
-		// } catch (\License\Exceptions\KeyExiststException $e) {
-		// 	echo "string";
-		// 	die();
-		// }
-	}
-
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-
-	/**
 	 * Display the specified resource.
 	 *
 	 * @param  int  $id
@@ -111,43 +93,37 @@ class ModulesController extends \BaseController {
 	 */
 	public function show($module_code)
 	{
-		return $this->repo->find($module_code);
+		$module = $this->repo->find($module_code);
+
+		if (Input::has('jsonp'))
+		{
+			$callback = \Input::get('callback', '[<b>SPECIFY CALLBACK]</b>');
+
+			return $callback . '(' . json_encode($module) . ')';
+		}
+
+		return View::make('modules.show')
+			->with('module', $module);
 	}
 
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Parse domain name
 	 *
-	 * @param  int  $id
-	 * @return Response
+	 * @return mixed
 	 */
-	public function edit($id)
+	private function parseDomain()
 	{
-		//
-	}
+		// Parse referer host
+		$domain = NULL;
 
+		if (isset($_SERVER['HTTP_REFERER']))
+		{
+			$parse = parse_url($_SERVER['HTTP_REFERER']);
+			$domain = $parse['host'];
+		}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+		return $domain;
 	}
 
 

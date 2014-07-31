@@ -45,7 +45,7 @@ class KeyAuthGenerator
 	 */
 	private function check($key)
 	{
-		$key = Key::where('key', $key)->where('active', 1)->first();
+		$key = Key::where('key', $key)->first();
 
 		// If we get exactly one row returned
 		return $key ? false : true;

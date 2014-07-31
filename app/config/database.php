@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
+			'host'      => '46.4.154.113',
 			'database'  => 'laravel_license',
-			'username'  => 'root',
-			'password'  => '',
+			'username'  => 'laravel_license',
+			'password'  => 'laravel_license',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

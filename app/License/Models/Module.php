@@ -8,5 +8,10 @@ class Module extends \Eloquent
 	{
 		return $this->hasMany('License\Models\ModuleType');
 	}
+
+	public function lang11($language_code = 'en')
+	{
+		return $this->hasOne('License\Models\ModuleTypeLanguage');
+	}
 	
 }

@@ -90,7 +90,20 @@ class KeyRepository
 	{
 		$key = Key::create($keyProperties);
 
-		return $key;
+		return $key->key;
+	}
+
+
+	/**
+	 * Remove key
+	 *
+	 * @return void
+	 */
+	public function remove($domain, $module_code)
+	{
+		Key::where('domain', $domain)
+			->where('module_code', $module_code)
+			->delete();
 	}
 
 

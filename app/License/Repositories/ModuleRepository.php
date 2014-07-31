@@ -2,13 +2,31 @@
 
 
 use License\Exceptions\ModuleNotFoundException;
+use License\Output\ModuleListOutput;
 use License\Models\Module;
 use DB;
 use View;
+use Input;
+
+use License\Services\ModuleSelector\ModuleSelector;
+use License\Services\Module\Module as ModuleService;
+use License\Services\Module\ModuleList as ModuleServiceList;
+
 
 
 class ModuleRepository 
 {
+
+	private $domain;
+	private $language_code = 'en';
+
+
+	function __construct($domain)
+	{
+		$this->setLanguage(Input::get('language_code', 'en'));
+		$this->domain = $domain;
+	}
+
 	
 	/**
 	 * Simply get all avalible modules
@@ -17,102 +35,39 @@ class ModuleRepository
 	 */
 	public function all()
 	{
-		$domain = 'demo.domain';
+		$module = new ModuleServiceList(
+			$this->domain, 
+			$this->language_code
+		);
 
-		// Here we are going to get module active keys
-		$module_keys = "
-			SELECT `k`.`expired_at` 
-            FROM `keys` as `k` 
-            WHERE 
-            	`k`.`module_code` = `m`.`code` AND 
-            	`k`.`domain` = '" . $domain . "' 
-            LIMIT 1 
-		";
-
-		// Fetch modules info
-		$modules = DB::table('modules as m')
-			->select(
-				'm.*',
-				DB::raw("(" . $module_keys . ") as key_expired_at")
-			)
-			->get();
-
-		return $this->format($modules);
+		return $module->all();
 	}
 
 
 	/**
-	 * Find module by its code
+	 * Find module by its code with all data (types, selected type)
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function find($module_code)
 	{
-		// Get module id in order to use build in relations in framework
-		$module = Module::whereCode($module_code)->first();
+		$module = new ModuleService(
+			$module_code, 
+			$this->domain, 
+			$this->language_code
+		);
 
-		// Ok, we have found some module
-		if ($module) {
-			$module_info = Module::with('types')->find($module->id);
-
-			return View::make('modules.show')
-				->with('module', $module_info);
+		$module_info = $module->create()->info();
+		
+		// // Ok, we have found some module
+		if ($module_info)
+		{
+			return $module_info;
 		}
 
 		throw new ModuleNotFoundException("Module not found", 0, NULL, array(
 			'module_code' => $module_code
 		));
-	}
-
-
-	/**
-	 * Format modules list array
-	 *
-	 * @return mixed
-	 */
-	public function format($modules)
-	{
-		$result = array();
-
-		foreach ($modules as $module)
-		{
-			$days_left = NULL;
-	        $expired_at = NULL;
-
-			// If there is some module with key it will
-			// have an key_expired_at field
-			if ($module->key_expired_at)
-		    {
-		    	$key_expired_at = strtotime($module->key_expired_at);
-
-		        // Get normal dates
-		        $today = time();
-		        $seconds_left = $key_expired_at - $today;
-		        
-		        // Check if we have some `use` time
-		        if ($seconds_left > 0)
-		        {
-			        // Module will be expired in N days
-		        	$days_left = floor($seconds_left / 3600 / 24);
-		        	
-		        	// Module will be expired in 01/06/2014
-		        	$expired_at = gmdate("d-m-Y", $key_expired_at);
-		        }
-		    }
-
-		    $result['apps'][] = array(
-		    	"image" 		=> 'http://' . $_SERVER['HTTP_HOST'] . "/public/modules/" . $module->code . '/logo-md.png',
-				"title" 		=> $module->name,
-				"category" 		=> $module->category,
-				"updated_at" 	=> "Updated " . $module->updated_at,
-				"price" 		=> $module->price . "$",
-		        "system_name" 	=> $module->code,
-		        "expired_at" 	=> $expired_at,
-				"days_left" 	=> $days_left
-			);
-		}
-
-		return $result;
 	}
 
 
@@ -128,6 +83,33 @@ class ModuleRepository
 		return $_SERVER["DOCUMENT_ROOT"] . "/public/modules/" . $module_code . ".zip";
 	}
 
+
+	/**
+	 * Increment amount of module downloads
+	 *
+	 * @return void
+	 */
+	public function incrementDownload($module_code)
+	{
+		$module = Module::whereCode($module_code)->first();
+		$module->increment('downloads');
+	}
+
+
+	/**
+	 * Set repository language
+	 *
+	 * @return void
+	 */
+	private function setLanguage($language_code)
+	{
+		if (empty($language_code) OR $language_code != 'ru')
+		{
+			$language_code = 'en';
+		}
+		
+		$this->language_code = $language_code;
+	}
 
 
 }

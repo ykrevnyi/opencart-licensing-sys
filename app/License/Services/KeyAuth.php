@@ -2,15 +2,19 @@
 
 
 use License\Repositories\KeyRepository;
+use License\Repositories\ModuleRepository;
 use License\Services\KeyAuthGenerator;
 use License\Exceptions\KeyExiststException;
 use License\Exceptions\KeyShouldHaveTimeException;
+use License\Models\ModuleType;
 
 
 class KeyAuth 
 {
 
 	private $generator;
+
+	private $keyRepo;
 
 	public $is_trial = false;
 
@@ -19,13 +23,13 @@ class KeyAuth
 	public $key_time = 0;
 	public $expired_at = 0;
 	public $module_code = "";
-	public $transaction_id = 'NULL';
-
+	public $module_type = NULL;
+	public $transaction_id = NULL;
 
 
 	function __construct() {
 		$this->generator = new KeyAuthGenerator;
-		$this->keyRepository = new KeyRepository;
+		$this->keyRepo = new KeyRepository;
 	}
 
 
@@ -55,8 +59,11 @@ class KeyAuth
 	 */
 	public function trial($domain, $module_code)
 	{
+		$moduleType = new ModuleType;
+
 		$this->domain = $domain;
 		$this->module_code = $module_code;
+		$this->module_type = $moduleType->best($module_code);
 		$this->is_trial = true;
 		$this->key_time = 60*60*24*7;
 
@@ -74,7 +81,7 @@ class KeyAuth
 	 */
 	private function exists()
 	{
-		$key = $this->keyRepository->findByModule(
+		$key = $this->keyRepo->findByModule(
 			$this->module_code, 
 			$this->domain
 		);
@@ -96,15 +103,15 @@ class KeyAuth
 		}
 
 		$this->expired_at = time() + $this->key_time;
-		
+
 		// Generate key
 		$this->key = $this->generator->make($this->is_trial);
 
 		// Insert the key into the databse
-		$key = $this->keyRepository->store($this->composeKeyParams());
+		$key = $this->keyRepo->store($this->composeKeyParams());
 		
 		// Check if the query was successful
-		return $key ? true : false;
+		return $key;
 	}
 
 
@@ -116,13 +123,13 @@ class KeyAuth
 	private function composeKeyParams()
 	{
 		return array(
-			'domain' 		=> $this->domain,
-			'key' 			=> $this->key,
-			'module_code' 	=> $this->module_code,
-			'module_type' 	=> 2,
-			'transation_id' => $this->transaction_id,
-			'active' 		=> true,
-			'expired_at' 	=> date('Y-m-d G:i:s', $this->expired_at)
+			'domain' 			=> empty($this->domain) ? NULL : $this->domain,
+			'key' 				=> $this->key,
+			'module_code' 		=> $this->module_code,
+			'module_type' 		=> $this->module_type,
+			'transaction_id'	=> $this->transaction_id,
+			'active' 			=> true,
+			'expired_at' 		=> date('Y-m-d G:i:s', $this->expired_at)
 		);
 	}
 
@@ -133,7 +140,7 @@ class KeyAuth
 	 */
 	public function key_info()
 	{
-		$key = $this->keyRepository->getByDomain(
+		$key = $this->keyRepo->getByDomain(
 			$this->key,
 			$this->domain
 		);
@@ -159,7 +166,7 @@ class KeyAuth
 	public function deactivate()
 	{
 		// Check if the query was successful
-		if($this->keyRepository->deActivate($this->key))
+		if($this->keyRepo->deActivate($this->key))
 		{
 			// Return true if the update was successful
 			return TRUE;
@@ -178,7 +185,7 @@ class KeyAuth
 	 **/
 	public function auth()
 	{
-		$key = $this->keyRepository->validate(
+		$key = $this->keyRepo->validate(
 			$this->key,
 			$this->domain,
 			$this->module_code

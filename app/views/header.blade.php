@@ -8,10 +8,11 @@
 		<meta name="keywords" content="page keywords">
 		<meta name="author" content="">
 
-		<title>Starting HTML5 template</title>
+		<title>Авторизация</title>
 
 		<!-- build:css css/vendor/bootstrap.min.css -->
-		<link href="public/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		{{ HTML::style('bower_components/bootstrap/dist/css/bootstrap.min.css') }}
+		{{ HTML::style('css/login.css') }}
 		<!-- /build -->
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -22,3 +23,7 @@
 	</head>
 
 	<body>
+
+	<div class="wrapper">
+		<div class="box">
+			

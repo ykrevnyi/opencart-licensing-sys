@@ -1,5 +1,5 @@
-{{ $header }}
+@include('header')
 
-{{ $content }}
+@yield('content')
 
-{{ $footer }}
+@include('footer')

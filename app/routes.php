@@ -23,8 +23,29 @@ Route::get('version', function()
 
 
 // for test only
-Route::get('/', function() { return 'home'; });
-Route::post('/', function() { return 'home post'; });
+Route::get('/', function() 
+{ 
+	return View::make('user.login'); 
+});
+
+Route::get('/registration', function() 
+{ 
+	return View::make('user.registration'); 
+});
+
+Route::get('/logout', function() 
+{ 
+	Auth::logout(); 
+	return Redirect::to('/'); 
+});
+
+Route::post('/login', '\License\Controllers\UserController@login');
+Route::post('/registration', '\License\Controllers\UserController@register');
+
+
+
+// Route::get('/', function() { return 'home'; });
+// Route::post('/', function() { return 'home post'; });
 
 
 // Log an url if route was not found

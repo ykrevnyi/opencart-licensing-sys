@@ -1,0 +1,29 @@
+{
+  "name": "license",
+  "version": "0.1",
+  "authors": [
+    "Oleg Demkovych"
+  ],
+  "description": "Opencart license module",
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "teil"
+  ],
+  "license": "MIT",
+  "homepage": "/",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "componentsDirectory": "public",
+  "dependencies": {
+    "jquery-ui": "~1.10.3"
+  }
+}

@@ -23,29 +23,42 @@ Route::get('version', function()
 
 
 // for test only
-Route::get('/', function() 
+Route::resource('admin', '\License\Controllers\UserController',
+	[ 'only' => array('index', 'register') ] );	
+
+Route::resource('admin.modules', '\License\Controllers\AdminModulesController');	
+
+
+Route::get('/admin', function() 
 { 
-	return View::make('user.login'); 
+	return View::make('admin.user.login'); 
 });
 
-Route::get('/registration', function() 
+Route::get('/admin/registration', function() 
 { 
-	return View::make('user.registration'); 
+	return View::make('admin.user.registration'); 
 });
 
-Route::get('/logout', function() 
+Route::get('/admin/logout', function() 
 { 
 	Auth::logout(); 
-	return Redirect::to('/'); 
+	return Redirect::to('/admin'); 
 });
 
-Route::post('/login', '\License\Controllers\UserController@login');
-Route::post('/registration', '\License\Controllers\UserController@register');
+Route::get('/admin/modules', '\License\Controllers\AdminModulesController@index');
+
+Route::get('/admin/modules/download/{code}', '\License\Controllers\AdminModulesController@getDownload');
+
+Route::get('/admin/modules/{code}/edit', '\License\Controllers\AdminModulesController@editModule');
 
 
 
-// Route::get('/', function() { return 'home'; });
-// Route::post('/', function() { return 'home post'; });
+Route::post('/admin/login', '\License\Controllers\UserController@login');
+Route::post('/admin/registration', '\License\Controllers\UserController@register');
+Route::post('/admin/modules', '\License\Controllers\AdminModulesController@updateModule');
+
+
+
 
 
 // Log an url if route was not found

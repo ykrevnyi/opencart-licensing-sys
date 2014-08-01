@@ -27,11 +27,13 @@ class UserController extends BaseController {
 				'password' => $data['password'] 
 			], true);
 
-			if ($auth)
-				return \Redirect::to('/');	
+			if ($auth) return \Redirect::to('/admin/modules');
+
+
+			$val->errors()->add('error', 'Эл. почта или пароль неправильные!');
 		} 
 
-		return \Redirect::to('/')->withErrors($val->errors()->add('error', 'Эл. почта или пароль неправильные!'));
+		return \Redirect::to('/admin')->withErrors($val);
 	}
 
 	public function register()
@@ -53,10 +55,11 @@ class UserController extends BaseController {
 				'password' => \Hash::make($data['password'])
 			]);
 
-			return \Redirect::to('/')->with(\Auth::login($user, 'true'));
+			return \Redirect::to('/admin')->with(\Auth::login($user, 'true'));
 		}
 
 
-		return \Redirect::to('/registration')->withErrors($val->errors());
+		return \Redirect::to('/admin/registration')->withErrors($val->errors());
 	}	
+
 }

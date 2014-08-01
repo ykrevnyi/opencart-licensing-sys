@@ -33,7 +33,7 @@ class ModulesController extends BaseController {
 		// Parse domain
 		$domain = $this->parseDomain();
 		$modules = $this->repo->all($domain);
-		
+
 		return Response::json($modules)
 			->setCallback(Input::get('callback'));
 	}

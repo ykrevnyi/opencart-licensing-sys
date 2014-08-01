@@ -13,6 +13,11 @@
 		<!-- build:css css/vendor/bootstrap.min.css -->
 		{{ HTML::style('bower_components/bootstrap/dist/css/bootstrap.min.css') }}
 		{{ HTML::style('css/login.css') }}
+		{{ HTML::style('css/modules.css') }}
+
+		{{ HTML::style('bower_components/jquery/dist/jquery.min.js') }}
+		{{ HTML::style('bower_components/jquery-ui/ui/jquery-ui.js') }}
+		{{ HTML::style('js/common.js') }}
 		<!-- /build -->
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -25,5 +30,5 @@
 	<body>
 
 	<div class="wrapper">
-		<div class="box">
+		
 			
